@@ -3,335 +3,487 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>霸王钱包 · 冻结管理原型 V1.0</title>
+<title>霸王钱包 · 冻结管理原型 V2.0</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 <style>
-* { margin:0; padding:0; box-sizing:border-box; -webkit-font-smoothing:antialiased; }
-body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Helvetica Neue",sans-serif; background:#F3F4F6; color:#111827; line-height:1.5; }
-.app-nav { position:sticky; top:0; z-index:100; background:#fff; border-bottom:1px solid #E5E7EB; padding:0 24px; display:flex; align-items:center; gap:8px; overflow-x:auto; box-shadow:0 1px 3px rgba(0,0,0,0.05); }
-.app-nav .brand { font-size:15px; font-weight:600; color:#4F46E5; padding:14px 16px 14px 0; white-space:nowrap; border-right:1px solid #E5E7EB; margin-right:8px; }
-.app-nav .tab { padding:14px 14px; font-size:13px; color:#6B7280; cursor:pointer; border-bottom:2px solid transparent; white-space:nowrap; transition:all 0.2s; }
-.app-nav .tab.active { color:#4F46E5; border-bottom-color:#4F46E5; font-weight:500; }
-.app-nav .tab:hover { color:#4F46E5; }
-.screen-wrap { padding:32px 24px; min-height:calc(100vh - 56px); }
-.screen { display:none; }
-.screen.active { display:block; }
-.screen-title { font-size:13px; color:#6B7280; margin-bottom:16px; padding:8px 16px; background:#EEF2FF; border-left:3px solid #4F46E5; border-radius:0 6px 6px 0; }
+:root{
+  --bg:#F4F5F7;--surface:#FFFFFF;--ink:#1B1E27;--ink-2:#5F6478;--ink-3:#9CA1B3;
+  --line:#EAECF1;--line-2:#F2F4F8;
+  /* 霸王茶姬品牌色 - 严格对齐截图 */
+  --brand:#C89867;--brand-2:#9C6B3D;--brand-bg:#F5E9D5;--brand-bg-2:#EAD9BC;
+  /* 钱包卡片：截图的紫蓝渐变 */
+  --card-from:#1F2A6E;--card-to:#5F3B9E;
+  --ok:#22A06B;--warn:#E68A2E;--err:#E5484D;--err-bg:#FDE7E8;
+  --info:#3E63DD;--info-bg:#E4EAFC;
+  --shadow-sm:0 1px 2px rgba(20,20,40,.06);
+  --shadow:0 4px 14px rgba(20,20,40,.08);
+  --shadow-lg:0 20px 48px rgba(20,20,40,.18);
+  --r-sm:8px;--r:12px;--r-lg:18px;--r-xl:24px;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased}
+html,body{font-family:"DM Sans","PingFang SC","Microsoft YaHei",system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+a{color:inherit;text-decoration:none}
+.mono{font-family:"DM Mono",ui-monospace,monospace;font-feature-settings:"tnum"}
 
-/* ============== 移动端 Mockup 容器 ============== */
-.mobile-mockup { width:375px; margin:0 auto; background:#fff; border-radius:36px; box-shadow:0 20px 50px rgba(0,0,0,0.15); overflow:hidden; padding:8px; border:10px solid #1F2937; position:relative; }
-.mobile-mockup::before { content:""; position:absolute; top:18px; left:50%; transform:translateX(-50%); width:120px; height:24px; background:#1F2937; border-radius:0 0 16px 16px; z-index:10; }
-.mobile-inner { width:100%; min-height:730px; border-radius:28px; overflow:hidden; background:#F5F1EA; position:relative; }
-.status-bar { height:36px; padding:0 24px; display:flex; align-items:center; justify-content:space-between; font-size:14px; font-weight:600; color:#111; padding-top:8px; }
+/* ============== 顶部导航 ============== */
+.topbar{position:sticky;top:0;z-index:90;background:rgba(255,255,255,.85);backdrop-filter:saturate(180%) blur(14px);border-bottom:1px solid var(--line);}
+.topbar-inner{max-width:1320px;margin:0 auto;padding:0 28px;display:flex;align-items:center;gap:24px;height:60px;}
+.topbar .brand{font-size:15px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:10px;padding-right:24px;border-right:1px solid var(--line);}
+.topbar .brand i{color:var(--brand);width:18px;height:18px;}
+.topbar .tabs{display:flex;gap:4px;flex:1;overflow-x:auto;scrollbar-width:none}
+.topbar .tabs::-webkit-scrollbar{display:none}
+.topbar .tab{padding:10px 14px;font-size:13px;color:var(--ink-2);border-radius:8px;cursor:pointer;white-space:nowrap;font-weight:500;transition:all .15s;display:flex;align-items:center;gap:6px;}
+.topbar .tab span.dot{width:18px;height:18px;border-radius:5px;background:var(--line);color:var(--ink-2);display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:600}
+.topbar .tab:hover{background:var(--line-2);color:var(--ink)}
+.topbar .tab.active{background:var(--ink);color:#fff;}
+.topbar .tab.active span.dot{background:rgba(255,255,255,.22);color:#fff}
+.topbar .ver{font-size:11px;color:var(--ink-3);font-family:"DM Mono",monospace;}
 
-/* ============== 钱包首页 ============== */
-.wallet-header { background:linear-gradient(135deg,#F5E6CC 0%,#EBD9B4 100%); padding:12px 20px 0; position:relative; }
-.wallet-topbar { display:flex; align-items:center; justify-content:space-between; height:44px; }
-.wallet-topbar .back { width:24px; height:24px; display:flex; align-items:center; justify-content:center; }
-.wallet-topbar .title { font-size:16px; font-weight:600; color:#1F2937; }
-.wallet-topbar .actions { display:flex; gap:12px; color:#6B7280; font-size:18px; }
-.store-row { display:flex; align-items:center; justify-content:space-between; padding:12px 0; }
-.store-name { font-size:14px; color:#1F2937; display:flex; align-items:center; gap:6px; }
-.store-switch { font-size:13px; color:#6B7280; display:flex; align-items:center; gap:4px; }
+/* ============== 屏幕容器 ============== */
+.stage{max-width:1320px;margin:0 auto;padding:36px 28px 80px;min-height:calc(100vh - 60px)}
+.screen{display:none;animation:fadeUp .35s ease-out}
+.screen.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.screen-head{display:flex;align-items:flex-start;gap:14px;margin-bottom:24px;padding:16px 20px;background:linear-gradient(135deg,#FFFFFF 0%,#FAFBFD 100%);border-radius:var(--r);border:1px solid var(--line);box-shadow:var(--shadow-sm)}
+.screen-head .num{flex-shrink:0;width:36px;height:36px;border-radius:10px;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px}
+.screen-head .info h3{font-size:15px;font-weight:600;color:var(--ink);margin-bottom:2px}
+.screen-head .info p{font-size:12.5px;color:var(--ink-2)}
+.screen-head .info p code{background:var(--line-2);padding:1px 6px;border-radius:4px;font-family:"DM Mono",monospace;font-size:11.5px;color:var(--brand-2)}
 
-.balance-card { margin:8px 0 0; background:linear-gradient(135deg,#1E3A8A 0%,#3730A3 60%,#5B21B6 100%); border-radius:16px; padding:20px; color:#fff; position:relative; overflow:hidden; box-shadow:0 8px 20px rgba(91,33,182,0.25); }
-.balance-card::before { content:""; position:absolute; right:-20px; top:-30px; width:160px; height:160px; background:radial-gradient(circle,rgba(255,255,255,0.08) 0%,transparent 70%); border-radius:50%; }
-.balance-card .account-setting { position:absolute; top:16px; right:0; background:rgba(255,255,255,0.18); color:#fff; font-size:12px; padding:6px 14px 6px 12px; border-radius:14px 0 0 14px; }
-.balance-card .label { font-size:13px; opacity:0.9; display:flex; align-items:center; gap:6px; }
-.balance-card .amount { font-size:30px; font-weight:600; margin:4px 0 6px; letter-spacing:1px; font-family:"DIN Alternate",-apple-system,sans-serif; }
-.balance-card .sub { font-size:12px; opacity:0.85; }
-.balance-card .sub b { font-weight:500; }
+/* ============== 移动端 mockup（严格对齐截图风格） ============== */
+.phone-wrap{display:flex;justify-content:center;gap:32px;align-items:flex-start;flex-wrap:wrap}
+.phone{width:375px;background:#000;border-radius:44px;padding:8px;box-shadow:var(--shadow-lg);position:relative;flex-shrink:0}
+.phone::before{content:"";position:absolute;top:18px;left:50%;transform:translateX(-50%);width:118px;height:28px;background:#000;border-radius:0 0 18px 18px;z-index:30}
+.phone-inner{width:100%;height:760px;border-radius:36px;overflow:hidden;background:#FFFFFF;position:relative}
+.statusbar{position:absolute;top:0;left:0;right:0;height:44px;display:flex;align-items:flex-end;justify-content:space-between;padding:0 28px 6px;font-size:14px;font-weight:600;color:#1B1E27;z-index:20}
+.statusbar .right{display:flex;gap:6px;align-items:center}
 
-/* 冻结提示行 - 新增核心元素 */
-.freeze-row { margin-top:12px; padding:10px 12px; background:rgba(239,68,68,0.15); border:1px solid rgba(239,68,68,0.3); border-radius:10px; display:flex; align-items:center; justify-content:space-between; cursor:pointer; }
-.freeze-row .freeze-info { display:flex; align-items:center; gap:8px; font-size:12px; }
-.freeze-row .freeze-icon { width:18px; height:18px; background:rgba(255,255,255,0.2); border-radius:4px; display:flex; align-items:center; justify-content:center; font-size:11px; }
-.freeze-row .freeze-amount { font-weight:600; color:#FCA5A5; font-size:14px; }
-.freeze-row .arrow { color:rgba(255,255,255,0.7); font-size:14px; }
+/* —— 钱包首页（参照截图配色：橙茶+紫蓝卡） —— */
+.wallet{height:100%;background:linear-gradient(180deg,var(--brand-bg) 0%,var(--brand-bg-2) 220px,#F4F1EB 100%);padding-top:44px;overflow-y:auto;}
+.wallet-nav{padding:10px 16px;display:flex;align-items:center;justify-content:space-between;}
+.wallet-nav .l,.wallet-nav .r{display:flex;align-items:center;gap:14px;color:#1B1E27}
+.wallet-nav .l i,.wallet-nav .r i{width:20px;height:20px}
+.wallet-nav .title{font-size:16px;font-weight:600}
+.store-row{padding:6px 18px 16px;display:flex;justify-content:space-between;align-items:center}
+.store-row .name{font-size:14px;color:#1B1E27;font-weight:500;display:flex;align-items:center;gap:6px}
+.store-row .name i{width:16px;height:16px;color:#9C6B3D}
+.store-row .switch{font-size:12px;color:#6F573D;display:flex;align-items:center;gap:3px;background:rgba(255,255,255,.5);padding:4px 9px;border-radius:12px;}
+.store-row .switch i{width:12px;height:12px}
 
-.action-btns { display:flex; gap:8px; margin-top:14px; padding-bottom:18px; }
-.btn-action { flex:1; height:38px; background:rgba(255,255,255,0.95); border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:500; color:#1F2937; }
-.btn-action.primary { background:rgba(255,255,255,0.25); color:#fff; backdrop-filter:blur(8px); }
-.btn-action.text { background:transparent; color:rgba(255,255,255,0.9); font-size:13px; }
+/* 紫蓝余额卡 */
+.balcard{margin:0 16px;background:linear-gradient(135deg,var(--card-from) 0%,var(--card-to) 100%);border-radius:18px;padding:18px 18px 16px;color:#fff;position:relative;overflow:hidden;box-shadow:0 14px 28px rgba(60,40,140,.3);}
+.balcard::after{content:"";position:absolute;right:-40px;top:-50px;width:200px;height:200px;background:radial-gradient(circle,rgba(255,255,255,.12) 0%,transparent 65%);border-radius:50%;}
+.balcard .acct{position:absolute;top:14px;right:0;background:rgba(255,255,255,.18);font-size:11px;padding:5px 12px 5px 10px;border-radius:12px 0 0 12px;display:flex;align-items:center;gap:4px}
+.balcard .acct i{width:11px;height:11px}
+.balcard .lbl{font-size:12.5px;opacity:.85;display:flex;align-items:center;gap:5px}
+.balcard .lbl i{width:13px;height:13px;opacity:.7}
+.balcard .amt{font-size:30px;font-weight:700;letter-spacing:.5px;margin:4px 0 4px;font-family:"DM Mono",monospace;}
+.balcard .sub{font-size:12px;opacity:.85;display:flex;align-items:center;gap:4px;}
+.balcard .sub b{font-weight:500;font-family:"DM Mono",monospace;}
+.balcard .sub i{width:11px;height:11px;opacity:.6}
 
+/* 新增：冻结提示行（克制设计，跟卡片融合，不破坏视觉） */
+.freeze-strip{margin-top:14px;padding:10px 12px;background:rgba(229,72,77,.18);border:1px solid rgba(229,72,77,.35);border-radius:10px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;transition:transform .15s,background .2s}
+.freeze-strip:active{transform:scale(.98)}
+.freeze-strip:hover{background:rgba(229,72,77,.26)}
+.freeze-strip .l{display:flex;align-items:center;gap:8px;font-size:12px}
+.freeze-strip .icon{width:22px;height:22px;background:rgba(255,255,255,.18);border-radius:6px;display:flex;align-items:center;justify-content:center}
+.freeze-strip .icon i{width:12px;height:12px;color:#FFC9CB}
+.freeze-strip .amt-frz{font-weight:600;color:#FFC9CB;font-size:13.5px;font-family:"DM Mono",monospace}
+.freeze-strip .tip{opacity:.75;font-size:10.5px;margin-left:3px}
+.freeze-strip .arrow i{width:14px;height:14px;color:rgba(255,255,255,.7)}
 
-/* 钱包首页内容区 */
-.wallet-body { background:#fff; border-radius:16px 16px 0 0; margin-top:-16px; padding:8px 0 24px; min-height:380px; }
-.msg-bar { margin:8px 16px; padding:14px 16px; background:#FFFBEB; border-left:3px solid #F59E0B; border-radius:6px; display:flex; align-items:center; justify-content:space-between; font-size:13px; }
-.msg-bar .msg-left { display:flex; align-items:center; gap:8px; }
-.msg-bar .msg-tag { font-size:11px; color:#92400E; }
-.msg-bar .msg-text { color:#1F2937; }
-.msg-bar .msg-date { color:#9CA3AF; font-size:12px; }
+.bal-actions{margin-top:14px;display:flex;gap:8px;align-items:center}
+.bal-btn{flex:1;height:36px;border-radius:8px;font-size:13px;font-weight:500;display:flex;align-items:center;justify-content:center}
+.bal-btn.gd{background:linear-gradient(180deg,#FFE5B4,#FFCF85);color:#7A4A14}
+.bal-btn.gl{background:rgba(255,255,255,.18);color:#fff;backdrop-filter:blur(4px)}
+.bal-link{font-size:11px;color:rgba(255,255,255,.85);display:flex;align-items:center;gap:2px;padding:0 6px}
+.bal-link i{width:10px;height:10px}
 
-.section { padding:16px 16px 0; }
-.section-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
-.section-head .title { font-size:15px; font-weight:600; color:#1F2937; }
-.section-head .more { font-size:12px; color:#F59E0B; }
-.channel-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:8px; }
-.channel-item { display:flex; flex-direction:column; align-items:center; gap:4px; }
-.channel-icon { width:42px; height:42px; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-size:13px; font-weight:600; position:relative; }
-.channel-tag { position:absolute; bottom:-4px; left:-4px; right:-4px; background:rgba(0,0,0,0.7); color:#fff; font-size:8px; padding:1px 0; border-radius:6px; text-align:center; transform:scale(0.85); white-space:nowrap; overflow:hidden; }
-.ci-mp { background:#10B981; }
-.ci-pos { background:#3B82F6; }
-.ci-mt { background:#FBBF24; color:#fff; }
-.ci-mtwm { background:#F59E0B; }
-.ci-ele { background:#06B6D4; }
-.channel-item .name { font-size:11px; color:#1F2937; }
+/* 钱包白色面板区 */
+.wpanel{margin-top:18px;background:#fff;border-radius:18px 18px 0 0;padding:10px 0 18px;min-height:240px}
+.wmsg{margin:8px 14px;padding:12px 14px;background:linear-gradient(90deg,#FFFBEE 0%,#FFF6E0 100%);border-left:3px solid var(--warn);border-radius:8px;display:flex;align-items:center;justify-content:space-between;font-size:12.5px}
+.wmsg .l{display:flex;align-items:center;gap:7px}
+.wmsg .l i{width:14px;height:14px;color:var(--warn)}
+.wmsg .date{color:var(--ink-3);font-size:11px;display:flex;align-items:center;gap:2px}
+.wmsg .date i{width:11px;height:11px}
 
-.tab-switch { display:inline-flex; background:#F3F4F6; border-radius:6px; padding:3px; gap:0; }
-.tab-switch span { padding:4px 14px; font-size:12px; border-radius:4px; color:#6B7280; cursor:pointer; }
-.tab-switch span.act { background:#fff; color:#4F46E5; font-weight:500; box-shadow:0 1px 2px rgba(0,0,0,0.05); }
+.wsec{padding:14px 16px 0}
+.wsec-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.wsec-h .t{font-size:14.5px;font-weight:600;color:var(--ink)}
+.wsec-h .more{font-size:11.5px;color:var(--brand-2);display:flex;align-items:center;gap:2px}
+.wsec-h .more i{width:11px;height:11px}
 
-.day-card-wrap { display:flex; gap:8px; padding:0 16px; margin-top:8px; }
-.day-card { flex:1; background:#fff; border-radius:8px; padding:10px 12px; border:1px solid #F3F4F6; }
-.day-card .day-head { display:flex; justify-content:space-between; align-items:center; font-size:12px; color:#6B7280; margin-bottom:6px; }
-.day-card .day-tag { background:#EEF2FF; color:#4F46E5; padding:1px 6px; border-radius:3px; font-size:10px; }
-.day-card .day-data { font-size:11px; line-height:1.7; }
-.day-card .pay-in { color:#10B981; font-weight:600; }
-.day-card .pay-out { color:#EF4444; font-weight:600; }
+.chgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.chitem{display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer}
+.chico{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:13px;box-shadow:var(--shadow-sm);position:relative}
+.chico.mp{background:linear-gradient(135deg,#34D399,#10B981)}
+.chico.po{background:linear-gradient(135deg,#60A5FA,#3B82F6)}
+.chico.mt{background:linear-gradient(135deg,#FBBF24,#F59E0B)}
+.chico.mtwm{background:linear-gradient(135deg,#FB923C,#F97316)}
+.chico.ele{background:linear-gradient(135deg,#22D3EE,#06B6D4)}
+.chitem .nm{font-size:11px;color:var(--ink-2)}
 
+.tswitch{display:inline-flex;background:var(--line-2);border-radius:8px;padding:3px}
+.tswitch span{padding:5px 14px;font-size:12px;border-radius:6px;color:var(--ink-2);cursor:pointer}
+.tswitch span.act{background:#fff;color:var(--ink);font-weight:600;box-shadow:var(--shadow-sm)}
 
-/* ============== 提现拦截弹窗 ============== */
-.modal-mask { position:absolute; inset:0; background:rgba(0,0,0,0.5); display:flex; align-items:flex-end; justify-content:center; z-index:50; }
-.modal-card { width:100%; background:#fff; border-radius:16px 16px 0 0; padding:24px 20px 28px; max-height:80%; overflow-y:auto; }
-.modal-header { text-align:center; margin-bottom:20px; }
-.modal-icon { width:56px; height:56px; margin:0 auto 12px; background:#FEF2F2; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:28px; }
-.modal-title { font-size:17px; font-weight:600; color:#1F2937; }
-.modal-subtitle { font-size:13px; color:#6B7280; margin-top:4px; }
-.modal-breakdown { background:#F9FAFB; border-radius:10px; padding:14px; margin-bottom:16px; }
-.breakdown-row { display:flex; justify-content:space-between; align-items:center; padding:8px 0; font-size:13px; }
-.breakdown-row + .breakdown-row { border-top:1px dashed #E5E7EB; }
-.breakdown-row .label { color:#6B7280; }
-.breakdown-row .value { color:#1F2937; font-weight:500; }
-.breakdown-row.frozen .value { color:#EF4444; }
-.breakdown-row.frozen .label { color:#EF4444; }
-.breakdown-row.available { padding-top:12px; }
-.breakdown-row.available .label { color:#1F2937; font-weight:600; }
-.breakdown-row.available .value { color:#10B981; font-weight:700; font-size:15px; }
-.freeze-list-mini { margin-bottom:16px; }
-.freeze-mini-item { display:flex; align-items:center; justify-content:space-between; padding:10px 12px; background:#FEF2F2; border-radius:8px; margin-bottom:8px; font-size:12px; }
-.freeze-mini-item .tag { display:inline-block; padding:2px 6px; background:#FECACA; color:#991B1B; border-radius:3px; margin-right:6px; font-size:10px; font-weight:500; }
-.modal-actions { display:flex; flex-direction:column; gap:10px; }
-.btn-modal-primary { height:46px; background:#4F46E5; color:#fff; border:none; border-radius:8px; font-size:15px; font-weight:600; cursor:pointer; }
-.btn-modal-primary:hover { background:#4338CA; }
-.btn-modal-text { height:40px; background:transparent; color:#6B7280; border:none; font-size:14px; cursor:pointer; }
-
-
-/* ============== 后台 公共样式 ============== */
-.admin { background:#fff; border-radius:8px; max-width:1280px; margin:0 auto; box-shadow:0 1px 3px rgba(0,0,0,0.08); overflow:hidden; }
-.admin-header { background:#1F2937; color:#fff; padding:14px 24px; display:flex; align-items:center; justify-content:space-between; }
-.admin-header .brand { font-size:15px; font-weight:600; display:flex; align-items:center; gap:10px; }
-.admin-header .logo { width:28px; height:28px; background:#4F46E5; border-radius:6px; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px; }
-.admin-header .crumbs { font-size:13px; opacity:0.7; }
-.admin-header .crumbs span { margin:0 6px; }
-.admin-header .user { display:flex; align-items:center; gap:10px; font-size:13px; }
-.admin-header .avatar { width:30px; height:30px; background:#4F46E5; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:600; }
-
-.toolbar { padding:16px 24px; border-bottom:1px solid #F3F4F6; display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
-.btn { padding:8px 16px; border-radius:6px; font-size:13px; cursor:pointer; border:1px solid transparent; font-weight:500; transition:all 0.2s; display:inline-flex; align-items:center; gap:6px; }
-.btn-primary { background:#4F46E5; color:#fff; }
-.btn-primary:hover { background:#4338CA; }
-.btn-default { background:#fff; color:#1F2937; border-color:#D1D5DB; }
-.btn-default:hover { border-color:#4F46E5; color:#4F46E5; }
-.btn-link { background:transparent; color:#4F46E5; padding:8px 4px; }
-.btn-link:hover { text-decoration:underline; }
-.btn-danger { background:#fff; color:#EF4444; border-color:#FCA5A5; }
-.btn-danger:hover { background:#FEF2F2; }
-
-.filter-bar { padding:16px 24px; background:#F9FAFB; display:grid; grid-template-columns:repeat(4,1fr) auto; gap:12px; align-items:end; }
-.filter-item { display:flex; flex-direction:column; gap:4px; }
-.filter-item label { font-size:12px; color:#6B7280; }
-.filter-item input,.filter-item select { padding:8px 10px; border:1px solid #D1D5DB; border-radius:6px; font-size:13px; background:#fff; outline:none; }
-.filter-item input:focus,.filter-item select:focus { border-color:#4F46E5; box-shadow:0 0 0 3px rgba(79,70,229,0.1); }
-.filter-actions { display:flex; gap:8px; }
-
-.data-table { width:100%; border-collapse:collapse; font-size:13px; }
-.data-table thead { background:#F9FAFB; }
-.data-table th { padding:12px 16px; text-align:left; font-weight:500; color:#6B7280; font-size:12px; border-bottom:1px solid #E5E7EB; white-space:nowrap; }
-.data-table td { padding:14px 16px; border-bottom:1px solid #F3F4F6; color:#1F2937; }
-.data-table tbody tr:hover { background:#F9FAFB; }
-.data-table .amount { font-family:"DIN Alternate",monospace; font-weight:600; }
-.data-table .amount-frozen { color:#EF4444; }
-.data-table .amount-pending { color:#F59E0B; }
-.data-table .amount-ok { color:#10B981; }
-.data-table .ellipsis { max-width:140px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-
-.badge { display:inline-block; padding:2px 8px; border-radius:10px; font-size:11px; font-weight:500; }
-.badge-info { background:#EEF2FF; color:#4F46E5; }
-.badge-warn { background:#FEF3C7; color:#92400E; }
-.badge-success { background:#D1FAE5; color:#065F46; }
-.badge-danger { background:#FEE2E2; color:#991B1B; }
-.badge-gray { background:#F3F4F6; color:#4B5563; }
-
-.pagination { padding:16px 24px; display:flex; align-items:center; justify-content:space-between; font-size:13px; color:#6B7280; }
-.pagination .pages { display:flex; gap:4px; }
-.pagination .page-num { width:32px; height:32px; display:flex; align-items:center; justify-content:center; border:1px solid #E5E7EB; border-radius:4px; cursor:pointer; }
-.pagination .page-num.active { background:#4F46E5; color:#fff; border-color:#4F46E5; }
+.daygrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 16px;margin-top:10px}
+.dayc{background:#fff;border:1px solid var(--line-2);border-radius:10px;padding:10px 12px}
+.dayc .h{display:flex;justify-content:space-between;font-size:11.5px;color:var(--ink-2);margin-bottom:5px;align-items:center}
+.dayc .tag{background:#FCE9D4;color:#92400E;padding:1px 6px;border-radius:3px;font-size:10px;font-weight:500}
+.dayc .row{font-size:11.5px;line-height:1.7}
+.dayc .in{color:var(--ok);font-weight:600;font-family:"DM Mono",monospace}
+.dayc .out{color:var(--err);font-weight:600;font-family:"DM Mono",monospace}
 
 
-/* ============== 后台 批量上传4步流程 ============== */
-.steps { display:flex; align-items:center; padding:24px; background:#F9FAFB; border-bottom:1px solid #F3F4F6; }
-.step { flex:1; display:flex; align-items:center; gap:10px; position:relative; }
-.step:not(:last-child)::after { content:""; flex:1; height:2px; background:#E5E7EB; margin:0 12px; min-width:40px; }
-.step.done:not(:last-child)::after { background:#10B981; }
-.step.current:not(:last-child)::after { background:#E5E7EB; }
-.step-num { width:32px; height:32px; border-radius:50%; background:#fff; border:2px solid #D1D5DB; color:#9CA3AF; display:flex; align-items:center; justify-content:center; font-weight:600; font-size:13px; flex-shrink:0; }
-.step.done .step-num { background:#10B981; border-color:#10B981; color:#fff; }
-.step.current .step-num { background:#4F46E5; border-color:#4F46E5; color:#fff; box-shadow:0 0 0 4px rgba(79,70,229,0.15); }
-.step-info { display:flex; flex-direction:column; }
-.step-info .name { font-size:13px; font-weight:500; color:#1F2937; }
-.step.current .step-info .name { color:#4F46E5; }
-.step-info .desc { font-size:11px; color:#9CA3AF; }
+/* ============== 提现页 & 拦截弹窗 ============== */
+.withdraw{height:100%;background:#F4F5F7;padding-top:44px;}
+.withdraw-nav{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:#fff;border-bottom:1px solid var(--line)}
+.withdraw-nav .t{font-size:16px;font-weight:600}
+.withdraw-nav i{width:20px;height:20px}
+.wd-body{padding:16px}
+.wd-card{background:#fff;border-radius:14px;padding:18px;margin-bottom:12px}
+.wd-card .lab{font-size:12px;color:var(--ink-2);margin-bottom:10px;display:flex;justify-content:space-between}
+.wd-input{display:flex;align-items:baseline;gap:8px;margin-bottom:14px}
+.wd-input .y{font-size:22px;color:var(--ink);font-weight:600}
+.wd-input .n{font-size:38px;font-weight:700;color:var(--ink);font-family:"DM Mono",monospace;letter-spacing:.5px}
+.wd-helper{font-size:11.5px;color:var(--ink-2);display:flex;justify-content:space-between;align-items:center;padding-top:12px;border-top:1px dashed var(--line)}
+.wd-helper .max{color:var(--brand-2);font-weight:600}
+.wd-quick{display:flex;gap:8px;margin-bottom:14px}
+.wd-quick span{flex:1;height:32px;border:1px solid var(--line);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--ink-2);cursor:pointer}
+.wd-quick span.act{border-color:var(--brand);color:var(--brand-2);background:var(--brand-bg)}
+.wd-acct{background:#fff;border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.wd-acct .lg{width:36px;height:36px;border-radius:8px;background:linear-gradient(135deg,#10B981,#059669);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px}
+.wd-acct .info .nm{font-size:13.5px;font-weight:600}
+.wd-acct .info .nb{font-size:11px;color:var(--ink-2);margin-top:1px;font-family:"DM Mono",monospace}
+.wd-acct .ck{margin-left:auto;color:var(--brand-2);font-size:12px}
+.wd-submit{height:48px;background:#D1D5DB;color:#fff;border-radius:24px;font-size:15px;font-weight:600;width:100%;display:flex;align-items:center;justify-content:center;gap:5px}
+.wd-submit.able{background:linear-gradient(180deg,var(--brand) 0%,var(--brand-2) 100%);box-shadow:0 6px 14px rgba(156,107,61,.3)}
 
-.upload-result { padding:24px; }
-.result-summary { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:24px; }
-.summary-card { padding:18px; border-radius:8px; }
-.summary-card.total { background:#EEF2FF; }
-.summary-card.success { background:#D1FAE5; }
-.summary-card.failed { background:#FEE2E2; }
-.summary-card .num { font-size:28px; font-weight:700; margin-bottom:4px; }
-.summary-card.total .num { color:#4F46E5; }
-.summary-card.success .num { color:#065F46; }
-.summary-card.failed .num { color:#991B1B; }
-.summary-card .label-sm { font-size:13px; color:#6B7280; }
+.mask{position:absolute;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:flex-end;justify-content:center;z-index:60;animation:fadeIn .2s}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.sheet{width:100%;background:#fff;border-radius:24px 24px 0 0;padding:24px 20px 28px;animation:slideUp .3s cubic-bezier(.4,0,.2,1);max-height:85%;overflow-y:auto}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.sheet-head{text-align:center;margin-bottom:18px}
+.sheet-icon{width:60px;height:60px;margin:0 auto 12px;background:radial-gradient(circle,#FDE7E8 0%,#FECACA 100%);border-radius:50%;display:flex;align-items:center;justify-content:center}
+.sheet-icon i{width:28px;height:28px;color:var(--err)}
+.sheet-title{font-size:18px;font-weight:700;color:var(--ink)}
+.sheet-sub{font-size:13px;color:var(--ink-2);margin-top:4px}
+.brk{background:var(--line-2);border-radius:12px;padding:6px 14px;margin-bottom:14px}
+.brk-row{display:flex;justify-content:space-between;padding:9px 0;font-size:13px;align-items:center}
+.brk-row+.brk-row{border-top:1px dashed var(--line)}
+.brk-row .l{color:var(--ink-2)}
+.brk-row .v{font-family:"DM Mono",monospace;font-weight:600;color:var(--ink)}
+.brk-row.minus .v{color:var(--err)}
+.brk-row.minus .l{color:var(--err)}
+.brk-row.ok .l{color:var(--ink);font-weight:600;font-size:13.5px}
+.brk-row.ok .v{color:var(--ok);font-weight:700;font-size:16px}
+.fz-list{margin-bottom:16px}
+.fz-list .ttl{font-size:11px;color:var(--ink-2);margin-bottom:6px;letter-spacing:.5px;text-transform:uppercase;font-weight:500}
+.fzitem{background:#FFF8F8;border:1px solid var(--err-bg);border-radius:10px;padding:10px 12px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;font-size:12px}
+.fzitem .l{display:flex;align-items:center;gap:6px}
+.fzitem .tag{display:inline-block;padding:2px 7px;border-radius:4px;font-size:10.5px;font-weight:600;letter-spacing:.3px}
+.fzitem .tag.court{background:#E5484D;color:#fff}
+.fzitem .tag.fee{background:#E68A2E;color:#fff}
+.fzitem .no{color:var(--ink-2);font-family:"DM Mono",monospace;font-size:11px}
+.fzitem .amt{color:var(--err);font-weight:700;font-family:"DM Mono",monospace}
+.sht-acts{display:flex;flex-direction:column;gap:8px}
+.btnp{height:48px;border-radius:24px;font-size:15px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:6px;}
+.btnp.brand{background:linear-gradient(180deg,var(--brand) 0%,var(--brand-2) 100%);color:#fff;box-shadow:0 6px 14px rgba(156,107,61,.3)}
+.btnp.brand:active{transform:scale(.98)}
+.btnp.ghost{background:transparent;color:var(--ink-2);font-weight:500}
+.btnp.ghost i{width:14px;height:14px}
+.btnp.text{height:36px;background:transparent;color:var(--ink-2);font-weight:400;font-size:13px}
 
-.alert-box { padding:14px 18px; background:#FEF3C7; border-left:4px solid #F59E0B; border-radius:6px; margin-bottom:20px; font-size:13px; color:#92400E; display:flex; align-items:flex-start; gap:10px; }
-.alert-box .alert-icon { font-size:18px; flex-shrink:0; }
-.alert-box .alert-content strong { display:block; margin-bottom:2px; }
+/* Toast */
+.toast{position:fixed;top:80px;left:50%;transform:translateX(-50%);background:rgba(20,25,35,.92);color:#fff;padding:12px 18px;border-radius:10px;font-size:13.5px;z-index:200;display:flex;align-items:center;gap:8px;backdrop-filter:blur(10px);box-shadow:0 12px 30px rgba(0,0,0,.25);opacity:0;pointer-events:none;transition:opacity .25s,transform .25s}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast i{width:16px;height:16px;color:#34D399}
+.toast.err i{color:#FCA5A5}
+.toast.info i{color:#93C5FD}
 
-.section-title-admin { font-size:14px; font-weight:600; color:#1F2937; margin-bottom:12px; display:flex; align-items:center; gap:8px; }
-.section-title-admin::before { content:""; width:3px; height:14px; background:#4F46E5; border-radius:2px; }
+/* ============== 后台公共样式 ============== */
+.admin{background:#fff;border-radius:var(--r-lg);border:1px solid var(--line);box-shadow:var(--shadow);overflow:hidden}
+.admin-bar{padding:18px 24px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;background:linear-gradient(180deg,#FFFFFF 0%,#FAFBFD 100%)}
+.admin-bar .l{display:flex;align-items:center;gap:14px}
+.admin-bar .crumb{font-size:13px;color:var(--ink-2);display:flex;align-items:center;gap:6px}
+.admin-bar .crumb i{width:13px;height:13px}
+.admin-bar .crumb b{color:var(--ink);font-weight:600}
+.admin-bar .user{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--ink-2)}
+.admin-bar .avt{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#3E63DD,#5F3B9E);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:11px}
 
-.bottom-actions { padding:16px 24px; background:#F9FAFB; border-top:1px solid #F3F4F6; display:flex; justify-content:space-between; align-items:center; }
+/* 工具栏 */
+.toolbar{padding:18px 24px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid var(--line-2)}
+.btn{padding:9px 16px;border-radius:8px;font-size:13px;font-weight:500;border:1px solid transparent;display:inline-flex;align-items:center;gap:6px;transition:all .15s;cursor:pointer;line-height:1}
+.btn i{width:14px;height:14px}
+.btn:active{transform:scale(.97)}
+.btn-primary{background:var(--ink);color:#fff}
+.btn-primary:hover{background:#000}
+.btn-default{background:#fff;color:var(--ink);border-color:var(--line)}
+.btn-default:hover{border-color:var(--ink);background:var(--line-2)}
+.btn-ghost{background:transparent;color:var(--ink-2);padding:9px 10px}
+.btn-ghost:hover{color:var(--ink);background:var(--line-2)}
+.btn-link{background:transparent;color:var(--info);padding:6px 10px;font-size:12.5px}
+.btn-link:hover{background:#EEF2FE}
+.btn-danger-text{color:var(--err);background:transparent;padding:6px 10px}
+.btn-danger-text:hover{background:var(--err-bg)}
 
-/* 工具样式 */
-.flex-row { display:flex; align-items:center; gap:8px; }
-.text-muted { color:#6B7280; font-size:12px; }
-.divider { height:1px; background:#F3F4F6; margin:16px 0; }
+/* 筛选区 */
+.filter{padding:16px 24px;background:#FAFBFD;display:grid;grid-template-columns:repeat(4,1fr) auto;gap:14px;align-items:end;border-bottom:1px solid var(--line-2)}
+.fld{display:flex;flex-direction:column;gap:5px}
+.fld label{font-size:11.5px;color:var(--ink-2);font-weight:500}
+.fld input,.fld select{padding:9px 12px;background:#fff;border:1px solid var(--line);border-radius:7px;font-size:13px;color:var(--ink);outline:none;font-family:inherit;transition:border-color .15s}
+.fld input:focus,.fld select:focus{border-color:var(--ink)}
+.fbtns{display:flex;gap:8px}
+
+/* 表格 */
+.tbl{width:100%;border-collapse:collapse;font-size:13px}
+.tbl thead{background:#FAFBFD}
+.tbl th{padding:12px 16px;text-align:left;font-weight:600;color:var(--ink-2);font-size:11.5px;letter-spacing:.4px;text-transform:uppercase;border-bottom:1px solid var(--line);white-space:nowrap}
+.tbl td{padding:14px 16px;border-bottom:1px solid var(--line-2);color:var(--ink);vertical-align:middle}
+.tbl tbody tr{transition:background .12s}
+.tbl tbody tr:hover{background:#FAFBFD}
+.tbl .num{font-family:"DM Mono",monospace;font-weight:600}
+.tbl .num.err{color:var(--err)}
+.tbl .num.warn{color:var(--warn)}
+.tbl .num.gray{color:var(--ink-3)}
+.tbl .ell{max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tbl .store{display:flex;flex-direction:column;gap:2px}
+.tbl .store .nm{font-weight:600}
+.tbl .store .cd{font-family:"DM Mono",monospace;font-size:11.5px;color:var(--ink-2)}
+.tbl .row-act{display:flex;gap:4px;justify-content:flex-end}
+
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:6px;font-size:11.5px;font-weight:600;letter-spacing:.2px}
+.badge i{width:10px;height:10px}
+.badge.b-court{background:#FDE7E8;color:#B22A2F}
+.badge.b-fee{background:#FFEFD9;color:#A86012}
+.badge.b-pen{background:#EAE0FB;color:#5F3B9E}
+.badge.b-other{background:var(--line-2);color:var(--ink-2)}
+.badge.s-eff{background:#DCFCE7;color:#15803D}
+.badge.s-rev{background:var(--info-bg);color:#3E4FAA}
+.badge.s-wait{background:#FEF3C7;color:#92400E}
+.badge.s-part{background:var(--line-2);color:var(--ink-2)}
+.badge.s-done{background:#F1F5F9;color:#475569}
+
+/* 分页 */
+.page{padding:16px 24px;display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--ink-2);background:#FAFBFD}
+.page .ctrls{display:flex;gap:4px;align-items:center}
+.page .pg{min-width:32px;height:32px;border:1px solid var(--line);border-radius:6px;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0 8px;background:#fff;font-size:12.5px;color:var(--ink-2)}
+.page .pg.act{background:var(--ink);color:#fff;border-color:var(--ink)}
+.page .pg:hover:not(.act){border-color:var(--ink-2)}
+
+/* ============== 抽屉/弹窗（后台用） ============== */
+.drawer-mask,.modal-mask{position:fixed;inset:0;background:rgba(15,18,28,.45);z-index:300;display:none;animation:fadeIn .2s}
+.drawer-mask.show,.modal-mask.show{display:block}
+.drawer{position:fixed;top:0;right:0;width:520px;max-width:96%;height:100%;background:#fff;z-index:310;box-shadow:-20px 0 40px rgba(0,0,0,.15);display:none;flex-direction:column;animation:slideRight .3s cubic-bezier(.4,0,.2,1)}
+.drawer.show{display:flex}
+@keyframes slideRight{from{transform:translateX(100%)}to{transform:translateX(0)}}
+.drawer-h{padding:20px 24px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;background:linear-gradient(180deg,#FFF,#FAFBFD)}
+.drawer-h h4{font-size:16px;font-weight:600}
+.drawer-h .close{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;color:var(--ink-2)}
+.drawer-h .close:hover{background:var(--line-2);color:var(--ink)}
+.drawer-b{flex:1;overflow-y:auto;padding:24px}
+.drawer-f{padding:16px 24px;border-top:1px solid var(--line);display:flex;justify-content:flex-end;gap:10px;background:#FAFBFD}
+
+.modal{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;border-radius:16px;width:560px;max-width:96%;z-index:310;display:none;box-shadow:var(--shadow-lg);overflow:hidden;animation:scaleIn .25s cubic-bezier(.4,0,.2,1)}
+.modal.show{display:block}
+@keyframes scaleIn{from{transform:translate(-50%,-50%) scale(.94);opacity:0}to{transform:translate(-50%,-50%) scale(1);opacity:1}}
+.modal-h{padding:18px 22px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
+.modal-h h4{font-size:15.5px;font-weight:600;display:flex;align-items:center;gap:8px}
+.modal-h h4 i{width:18px;height:18px;color:var(--brand-2)}
+.modal-h .close{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;color:var(--ink-2)}
+.modal-h .close:hover{background:var(--line-2)}
+.modal-b{padding:22px}
+.modal-f{padding:14px 22px;border-top:1px solid var(--line);display:flex;justify-content:flex-end;gap:10px;background:#FAFBFD}
+
+/* 上传抽屉 */
+.up-zone{border:2px dashed var(--line);border-radius:14px;padding:38px 24px;text-align:center;background:#FAFBFD;transition:all .2s;cursor:pointer}
+.up-zone:hover{border-color:var(--brand);background:var(--brand-bg)}
+.up-zone .ico{width:54px;height:54px;margin:0 auto 14px;background:#fff;border-radius:14px;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-sm)}
+.up-zone .ico i{width:24px;height:24px;color:var(--brand-2)}
+.up-zone .tt{font-size:14.5px;font-weight:600;margin-bottom:4px}
+.up-zone .st{font-size:12.5px;color:var(--ink-2)}
+.up-zone .pick{margin-top:14px;padding:7px 18px;background:var(--ink);color:#fff;border-radius:7px;font-size:13px;display:inline-block;font-weight:500}
+
+.up-info{margin-top:16px;background:var(--info-bg);border-radius:10px;padding:14px;font-size:12.5px;color:#3E4FAA;display:flex;gap:10px;align-items:flex-start}
+.up-info i{width:16px;height:16px;flex-shrink:0;margin-top:1px}
+.up-info ul{margin:6px 0 0 16px;line-height:1.7}
+
+/* 抽屉内的明细块 */
+.drawer-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px}
+.k-card{background:var(--line-2);border-radius:10px;padding:12px 14px}
+.k-card .l{font-size:11.5px;color:var(--ink-2);margin-bottom:4px}
+.k-card .v{font-size:18px;font-weight:700;font-family:"DM Mono",monospace}
+.k-card.brand{background:linear-gradient(135deg,#FDE7E8,#FCD9DA)}
+.k-card.brand .v{color:var(--err)}
+.k-card.warn{background:linear-gradient(135deg,#FEF3C7,#FDE68A)}
+.k-card.warn .v{color:#92400E}
+
+.fzdt-list{display:flex;flex-direction:column;gap:10px}
+.fzdt-row{border:1px solid var(--line);border-radius:10px;padding:14px;background:#fff}
+.fzdt-row .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.fzdt-row .ttls{font-weight:600;font-size:13.5px;display:flex;align-items:center;gap:8px}
+.fzdt-row .amts{font-size:16px;font-weight:700;font-family:"DM Mono",monospace;color:var(--err)}
+.fzdt-row .meta{display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px;color:var(--ink-2)}
+.fzdt-row .meta b{color:var(--ink);font-weight:500;font-family:"DM Mono",monospace}
+
+/* ============== 4步流程 ============== */
+.steps{padding:24px 36px;display:flex;align-items:center;background:linear-gradient(180deg,#FAFBFD 0%,#FFF 100%);border-bottom:1px solid var(--line);gap:8px}
+.step{flex:1;display:flex;align-items:center;gap:12px;position:relative}
+.step-num{width:34px;height:34px;border-radius:50%;background:#fff;border:2px solid var(--line);color:var(--ink-3);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0;transition:all .25s;font-family:"DM Mono",monospace}
+.step-num i{width:14px;height:14px}
+.step.done .step-num{background:var(--ok);border-color:var(--ok);color:#fff}
+.step.current .step-num{background:var(--ink);border-color:var(--ink);color:#fff;box-shadow:0 0 0 6px rgba(27,30,39,.1)}
+.step-info{display:flex;flex-direction:column;line-height:1.3}
+.step-info .n{font-size:13.5px;font-weight:600;color:var(--ink)}
+.step.current .step-info .n{color:var(--ink)}
+.step:not(.done):not(.current) .step-info .n{color:var(--ink-3)}
+.step-info .d{font-size:11px;color:var(--ink-3)}
+.step-line{flex:1;height:2px;background:var(--line);min-width:24px;transition:all .3s}
+.step-line.done{background:var(--ok)}
+
+.result{padding:24px 28px}
+.alert{padding:14px 18px;border-radius:10px;display:flex;gap:12px;align-items:flex-start;margin-bottom:22px;font-size:13px}
+.alert i.icon{width:18px;height:18px;flex-shrink:0;margin-top:1px}
+.alert.warn{background:#FEF3C7;color:#92400E}
+.alert.warn i.icon{color:var(--warn)}
+.alert.ok{background:#DCFCE7;color:#15803D}
+.alert.ok i.icon{color:var(--ok)}
+.alert b{display:block;margin-bottom:2px;font-weight:600}
+
+.sum3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px}
+.scard{padding:18px 20px;border-radius:14px;position:relative;overflow:hidden}
+.scard .n{font-size:30px;font-weight:700;margin-bottom:3px;font-family:"DM Mono",monospace;line-height:1.1}
+.scard .l{font-size:12.5px;color:var(--ink-2)}
+.scard .ic{position:absolute;top:14px;right:14px;width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.55)}
+.scard .ic i{width:15px;height:15px}
+.scard.total{background:linear-gradient(135deg,#E4EAFC,#D6DFFF)}
+.scard.total .n{color:#3E4FAA}
+.scard.total .ic i{color:#3E4FAA}
+.scard.suc{background:linear-gradient(135deg,#DCFCE7,#C8F6D8)}
+.scard.suc .n{color:#15803D}
+.scard.suc .ic i{color:#15803D}
+.scard.fail{background:linear-gradient(135deg,#FDE7E8,#FCD9DA)}
+.scard.fail .n{color:#B22A2F}
+.scard.fail .ic i{color:#B22A2F}
+
+.subhead{font-size:14px;font-weight:700;color:var(--ink);margin:0 0 12px;display:flex;align-items:center;gap:8px}
+.subhead::before{content:"";width:3px;height:14px;background:var(--ink);border-radius:2px}
+.bordertbl{border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-bottom:24px}
+.bottom-acts{padding:18px 28px;border-top:1px solid var(--line);background:#FAFBFD;display:flex;justify-content:space-between;align-items:center}
+.bottom-acts .l{display:flex;gap:10px}
+.bottom-acts .r{display:flex;gap:10px}
+
 </style>
 </head>
-
-
 <body>
-<nav class="app-nav">
-  <div class="brand">🔒 钱包冻结管理 V1.0</div>
-  <div class="tab active" data-tab="s1">① 加盟商钱包首页</div>
-  <div class="tab" data-tab="s3">② 提现拦截弹窗</div>
-  <div class="tab" data-tab="s4">③ 后台·冻结列表</div>
-  <div class="tab" data-tab="s5">④ 后台·批量上传</div>
+
+<!-- 顶部导航 -->
+<nav class="topbar">
+  <div class="topbar-inner">
+    <div class="brand"><i data-lucide="lock-keyhole"></i>钱包冻结管理 · 原型 V2.0</div>
+    <div class="tabs">
+      <div class="tab active" data-tab="s1"><span class="dot">1</span>钱包首页</div>
+      <div class="tab" data-tab="s2"><span class="dot">2</span>提现拦截</div>
+      <div class="tab" data-tab="s3"><span class="dot">3</span>冻结管理列表</div>
+      <div class="tab" data-tab="s4"><span class="dot">4</span>批量上传流程</div>
+    </div>
+    <div class="ver">© 霸王茶姬 · E端支付中台</div>
+  </div>
 </nav>
 
-<div class="screen-wrap">
+<div class="stage">
 
-<!-- ============ 屏幕1：加盟商钱包首页 ============ -->
+<!-- ============ 屏幕1：钱包首页（严格对齐截图） ============ -->
 <div class="screen active" id="s1">
-  <div class="screen-title">📱 屏幕1 · 加盟商钱包首页（移动端 375×812）— 红色提示行 = 新增冻结展示，点击可下钻到冻结明细</div>
-  <div class="mobile-mockup">
-    <div class="mobile-inner">
-      <div class="status-bar">
-        <span>9:41</span>
-        <span style="display:flex;gap:4px;">📶 🔋</span>
-      </div>
-      <div class="wallet-header">
-        <div class="wallet-topbar">
-          <div class="back">‹</div>
-          <div class="title">霸王钱包</div>
-          <div class="actions">⋯ — ⊙</div>
-        </div>
-        <div class="store-row">
-          <div class="store-name">🏪 四川成都春熙店</div>
-          <div class="store-switch">切换 ⇄</div>
-        </div>
-        <div class="balance-card">
-          <div class="account-setting">账户设置</div>
-          <div class="label">总余额 <span style="font-size:11px;">👁</span></div>
-          <div class="amount">¥386,520.50</div>
-          <div class="sub">其中，可提现余额：<b>¥206,520.50</b></div>
+  <div class="screen-head">
+    <div class="num">1</div>
+    <div class="info">
+      <h3>加盟商钱包首页（移动端）</h3>
+      <p>严格保留原始截图的橙茶配色和紫蓝余额卡，仅在余额卡内新增红色 <code>已冻结提示行</code>，可点击下钻冻结明细。</p>
+    </div>
+  </div>
 
-          <!-- 核心新增：冻结提示行 -->
-          <div class="freeze-row" onclick="alert('点击进入冻结明细页（移动端，PRD描述已覆盖，此处省略原型）')">
-            <div class="freeze-info">
-              <div class="freeze-icon">🔒</div>
-              <span>已冻结</span>
-              <span class="freeze-amount">¥180,000.00</span>
-              <span style="opacity:0.75;font-size:11px;">（含待补冻 ¥0）</span>
-            </div>
-            <div class="arrow">›</div>
-          </div>
-
-          <div class="action-btns">
-            <div class="btn-action">充值</div>
-            <div class="btn-action primary">提现</div>
-            <div class="btn-action text">在电脑端查看</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="wallet-body">
-        <div class="msg-bar">
-          <div class="msg-left">
-            <span class="msg-tag">📩 消息</span>
-            <span class="msg-text">您有56条待支付订单</span>
-          </div>
-          <span class="msg-date">05-27 ›</span>
+  <div class="phone-wrap">
+    <div class="phone">
+      <div class="phone-inner">
+        <div class="statusbar">
+          <span>9:41</span>
+          <span class="right"><i data-lucide="signal" style="width:14px;height:14px;"></i><i data-lucide="wifi" style="width:14px;height:14px;"></i><i data-lucide="battery-full" style="width:18px;height:14px;"></i></span>
         </div>
 
-        <div class="section">
-          <div class="section-head">
-            <div class="title">收款渠道</div>
-            <div class="more">结算日历 ›</div>
+        <div class="wallet">
+          <div class="wallet-nav">
+            <div class="l"><i data-lucide="chevron-left"></i></div>
+            <div class="title">霸王钱包</div>
+            <div class="r"><i data-lucide="more-horizontal"></i><i data-lucide="headphones"></i><i data-lucide="circle-help"></i></div>
           </div>
-          <div class="channel-grid">
-            <div class="channel-item">
-              <div class="channel-icon ci-mp">小</div>
-              <div class="name">小程序</div>
-            </div>
-            <div class="channel-item">
-              <div class="channel-icon ci-pos">⊞</div>
-              <div class="name">收银机扫码</div>
-            </div>
-            <div class="channel-item">
-              <div class="channel-icon ci-mt">美</div>
-              <div class="name">美团团购</div>
-            </div>
-            <div class="channel-item">
-              <div class="channel-icon ci-mtwm">🛵</div>
-              <div class="name">美团外卖</div>
-            </div>
-            <div class="channel-item">
-              <div class="channel-icon ci-ele">e</div>
-              <div class="name">饿了么外卖</div>
-            </div>
+          <div class="store-row">
+            <div class="name"><i data-lucide="store"></i>四川成都春熙店</div>
+            <div class="switch">切换<i data-lucide="chevrons-up-down"></i></div>
           </div>
-        </div>
 
-        <div class="section">
-          <div class="section-head">
-            <div class="title">收支汇总</div>
-            <div class="more">全部账单 ›</div>
-          </div>
-          <div class="tab-switch">
-            <span class="act">日收支</span>
-            <span>月收支</span>
-          </div>
-        </div>
+          <div class="balcard">
+            <div class="acct"><i data-lucide="settings"></i>账户设置</div>
+            <div class="lbl">总余额 <i data-lucide="eye"></i></div>
+            <div class="amt">¥386,520.50</div>
+            <div class="sub">其中，可提现余额：<b>¥206,520.50</b> <i data-lucide="info"></i></div>
 
-        <div class="day-card-wrap">
-          <div class="day-card">
-            <div class="day-head">
-              <span><span class="day-tag">今日</span> 05-27</span>
+            <!-- 新增：冻结提示行（核心，可点击下钻） -->
+            <div class="freeze-strip" onclick="openFreezeDetail()">
+              <div class="l">
+                <div class="icon"><i data-lucide="lock"></i></div>
+                <span>已冻结</span>
+                <span class="amt-frz">¥180,000.00</span>
+                <span class="tip">含待补冻 ¥0</span>
+              </div>
+              <div class="arrow"><i data-lucide="chevron-right"></i></div>
             </div>
-            <div class="day-data">
-              <div style="color:#9CA3AF;">营业进行中</div>
-              <div>当日入账 <span class="pay-in">¥0.00</span></div>
+
+            <div class="bal-actions">
+              <button class="bal-btn gd" onclick="showToast('充值入口（演示）','info')">充值</button>
+              <button class="bal-btn gl" onclick="switchTab('s2')">提现</button>
+              <a class="bal-link" onclick="showToast('PC端预览（演示）','info')">在电脑端查看<i data-lucide="external-link"></i></a>
             </div>
           </div>
-          <div class="day-card">
-            <div class="day-head">
-              <span>昨日 05-26</span>
+
+          <div class="wpanel">
+            <div class="wmsg">
+              <div class="l"><i data-lucide="message-square"></i><span>您有 <b>56</b> 条待支付订单</span></div>
+              <div class="date">05-27<i data-lucide="chevron-right"></i></div>
             </div>
-            <div class="day-data">
-              <div>收 9笔 <span class="pay-in">¥34,030.87</span></div>
-              <div>支 10笔 <span class="pay-out">¥34,954.92</span></div>
+
+            <div class="wsec">
+              <div class="wsec-h"><div class="t">收款渠道</div><div class="more">结算日历<i data-lucide="chevron-right"></i></div></div>
+              <div class="chgrid">
+                <div class="chitem" onclick="showToast('小程序收款明细','info')"><div class="chico mp">小</div><div class="nm">小程序</div></div>
+                <div class="chitem" onclick="showToast('收银机扫码明细','info')"><div class="chico po">⊞</div><div class="nm">收银机</div></div>
+                <div class="chitem" onclick="showToast('美团团购明细','info')"><div class="chico mt">美</div><div class="nm">美团团购</div></div>
+                <div class="chitem" onclick="showToast('美团外卖明细','info')"><div class="chico mtwm">外</div><div class="nm">美团外卖</div></div>
+                <div class="chitem" onclick="showToast('饿了么明细','info')"><div class="chico ele">饿</div><div class="nm">饿了么</div></div>
+              </div>
+            </div>
+
+            <div class="wsec">
+              <div class="wsec-h"><div class="t">收支汇总</div><div class="more">全部账单<i data-lucide="chevron-right"></i></div></div>
+              <div class="tswitch"><span class="act">日收支</span><span>月收支</span></div>
+            </div>
+            <div class="daygrid">
+              <div class="dayc">
+                <div class="h"><span><span class="tag">今日</span> 05-27</span></div>
+                <div class="row" style="color:var(--ink-3)">营业进行中</div>
+                <div class="row">当日入账 <span class="in">¥0.00</span></div>
+              </div>
+              <div class="dayc">
+                <div class="h"><span>昨日 05-26</span></div>
+                <div class="row">收 9笔 <span class="in">¥34,030.87</span></div>
+                <div class="row">支 10笔 <span class="out">¥34,954.92</span></div>
+              </div>
             </div>
           </div>
         </div>
@@ -339,76 +491,95 @@ body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaH
     </div>
   </div>
 </div>
-
 
 <!-- ============ 屏幕2：提现拦截弹窗 ============ -->
-<div class="screen" id="s3">
-  <div class="screen-title">📱 屏幕2 · 加盟商提现拦截弹窗（移动端）— 用户输入30万发起提现时触发</div>
-  <div class="mobile-mockup">
-    <div class="mobile-inner">
-      <div class="status-bar">
-        <span>9:41</span>
-        <span style="display:flex;gap:4px;">📶 🔋</span>
-      </div>
-      <!-- 背景：模拟提现页面 -->
-      <div style="padding:20px;background:#fff;">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;">
-          <div style="font-size:18px;">‹</div>
-          <div style="font-size:16px;font-weight:600;">提现</div>
-          <div style="width:18px;"></div>
+<div class="screen" id="s2">
+  <div class="screen-head">
+    <div class="num">2</div>
+    <div class="info">
+      <h3>提现拦截弹窗（移动端）</h3>
+      <p>输入金额 <code>30 万</code> → 点击「提现」 → 弹出拦截弹窗。弹窗内含 <code>账户分解 + 冻结明细 + 提取最大可用</code> 一键操作。</p>
+    </div>
+  </div>
+
+  <div class="phone-wrap">
+    <div class="phone">
+      <div class="phone-inner">
+        <div class="statusbar">
+          <span>9:41</span>
+          <span class="right"><i data-lucide="signal" style="width:14px;height:14px;"></i><i data-lucide="wifi" style="width:14px;height:14px;"></i><i data-lucide="battery-full" style="width:18px;height:14px;"></i></span>
         </div>
-        <div style="background:#F9FAFB;border-radius:12px;padding:20px;margin-bottom:20px;">
-          <div style="font-size:12px;color:#6B7280;margin-bottom:8px;">提现金额（元）</div>
-          <div style="font-size:32px;font-weight:600;color:#1F2937;">¥ 300,000.00</div>
-          <div style="font-size:12px;color:#6B7280;margin-top:8px;">总余额 ¥386,520.50</div>
-        </div>
-        <div style="height:48px;background:#D1D5DB;color:#fff;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:500;">提现金额超过可用余额</div>
-      </div>
 
-      <!-- 弹出的拦截 Modal -->
-      <div class="modal-mask">
-        <div class="modal-card">
-          <div class="modal-header">
-            <div class="modal-icon">🔒</div>
-            <div class="modal-title">无法提现该金额</div>
-            <div class="modal-subtitle">您的账户存在冻结金额，部分余额暂不可提现</div>
+        <div class="withdraw">
+          <div class="withdraw-nav">
+            <i data-lucide="chevron-left" onclick="switchTab('s1')" style="cursor:pointer"></i>
+            <div class="t">提现到银行卡</div>
+            <i data-lucide="more-horizontal"></i>
+          </div>
+          <div class="wd-body">
+            <div class="wd-card">
+              <div class="lab"><span>提现金额</span><span style="color:var(--ink-3)">单笔最高 ¥50万</span></div>
+              <div class="wd-input"><span class="y">¥</span><span class="n" id="wd-amt">300,000.00</span></div>
+              <div class="wd-helper">
+                <span>账户余额 ¥386,520.50</span>
+                <span class="max" onclick="prefillMax()" style="cursor:pointer">最多可提 ¥206,520.50</span>
+              </div>
+            </div>
+
+            <div class="wd-quick">
+              <span>1万</span><span>5万</span><span>10万</span><span class="act">30万</span><span>全部</span>
+            </div>
+
+            <div class="wd-acct">
+              <div class="lg">招</div>
+              <div class="info">
+                <div class="nm">招商银行</div>
+                <div class="nb">**** **** **** 8821</div>
+              </div>
+              <div class="ck">切换</div>
+            </div>
+
+            <button class="wd-submit able" onclick="openInterceptSheet()">
+              <i data-lucide="arrow-up-right" style="width:16px;height:16px;"></i>
+              立即提现
+            </button>
+            <div style="text-align:center;font-size:11px;color:var(--ink-3);margin-top:14px">提现将在 1-2 小时内到账</div>
           </div>
 
-          <div class="modal-breakdown">
-            <div class="breakdown-row">
-              <span class="label">总余额</span>
-              <span class="value">¥386,520.50</span>
-            </div>
-            <div class="breakdown-row frozen">
-              <span class="label">已冻结金额</span>
-              <span class="value">−¥180,000.00</span>
-            </div>
-            <div class="breakdown-row">
-              <span class="label">在途提现</span>
-              <span class="value">−¥0.00</span>
-            </div>
-            <div class="breakdown-row available">
-              <span class="label">当前可提现</span>
-              <span class="value">¥206,520.50</span>
-            </div>
-          </div>
+          <!-- 拦截 sheet -->
+          <div class="mask" id="iSheet" style="display:none">
+            <div class="sheet">
+              <div class="sheet-head">
+                <div class="sheet-icon"><i data-lucide="lock"></i></div>
+                <div class="sheet-title">部分余额暂不可提现</div>
+                <div class="sheet-sub">您账户存在冻结金额，请确认操作</div>
+              </div>
 
-          <div class="freeze-list-mini">
-            <div style="font-size:12px;color:#6B7280;margin-bottom:8px;">冻结明细：</div>
-            <div class="freeze-mini-item">
-              <div><span class="tag">法院冻结</span>(2026)沪01执1234号</div>
-              <div style="color:#991B1B;font-weight:600;">¥150,000.00</div>
-            </div>
-            <div class="freeze-mini-item">
-              <div><span class="tag">手续费追缴</span>FEE20260301</div>
-              <div style="color:#991B1B;font-weight:600;">¥30,000.00</div>
-            </div>
-          </div>
+              <div class="brk">
+                <div class="brk-row"><span class="l">总余额</span><span class="v">¥386,520.50</span></div>
+                <div class="brk-row minus"><span class="l">已冻结金额</span><span class="v">−¥180,000.00</span></div>
+                <div class="brk-row minus"><span class="l">在途提现</span><span class="v">−¥0.00</span></div>
+                <div class="brk-row ok"><span class="l">当前可提现</span><span class="v">¥206,520.50</span></div>
+              </div>
 
-          <div class="modal-actions">
-            <button class="btn-modal-primary">提取最大可用金额 ¥206,520.50</button>
-            <button class="btn-modal-text">联系财务 021-XXXX-1234</button>
-            <button class="btn-modal-text">取消</button>
+              <div class="fz-list">
+                <div class="ttl">冻结明细</div>
+                <div class="fzitem">
+                  <div class="l"><span class="tag court">法院冻结</span><span class="no">(2026)沪01执1234号</span></div>
+                  <div class="amt">¥150,000.00</div>
+                </div>
+                <div class="fzitem">
+                  <div class="l"><span class="tag fee">手续费追缴</span><span class="no">FEE20260301</span></div>
+                  <div class="amt">¥30,000.00</div>
+                </div>
+              </div>
+
+              <div class="sht-acts">
+                <button class="btnp brand" onclick="confirmMaxWithdraw()"><i data-lucide="arrow-right" style="width:15px;height:15px;"></i>提取最大可用 ¥206,520.50</button>
+                <button class="btnp ghost" onclick="showToast('已为您拨号：021-8888-1234','info')"><i data-lucide="phone"></i>联系财务 021-8888-1234</button>
+                <button class="btnp text" onclick="closeInterceptSheet()">取消</button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -417,183 +588,102 @@ body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaH
 </div>
 
 
-<!-- ============ 屏幕3：后台·冻结管理列表 ============ -->
-<div class="screen" id="s4">
-  <div class="screen-title">🖥️ 屏幕3 · 财务后台 · 冻结管理列表（桌面端）— 含双账户字段列、4种状态徽章</div>
+<!-- ============ 屏幕3：后台冻结管理列表 ============ -->
+<div class="screen" id="s3">
+  <div class="screen-head">
+    <div class="num">3</div>
+    <div class="info">
+      <h3>财务后台 · 冻结管理列表（桌面端）</h3>
+      <p>所有按钮均可点击：<code>批量冻结</code> 弹上传抽屉、<code>下载模板</code> 触发模板下载、<code>明细</code> 弹冻结详情抽屉、<code>解冻/复核</code> 弹确认弹窗。</p>
+    </div>
+  </div>
+
   <div class="admin">
-    <div class="admin-header">
-      <div class="brand">
-        <div class="logo">财</div>
-        <span>财务中台 ／ 钱包管理</span>
-        <span class="crumbs">›<span>冻结管理</span></span>
+    <div class="admin-bar">
+      <div class="l">
+        <div class="crumb"><i data-lucide="layout-dashboard"></i>财务中台<i data-lucide="chevron-right"></i>钱包管理<i data-lucide="chevron-right"></i><b>冻结管理</b></div>
       </div>
       <div class="user">
-        <span style="opacity:0.7;">操作员</span>
-        <span>邹鎏镭</span>
-        <div class="avatar">邹</div>
+        <span>操作员 · 邹鎏镭</span>
+        <div class="avt">JR</div>
       </div>
     </div>
 
     <div class="toolbar">
-      <button class="btn btn-primary">+ 批量冻结</button>
-      <button class="btn btn-default">⇡ 批量解冻</button>
-      <button class="btn btn-link">⤓ 下载文件模板</button>
-      <div style="flex:1;"></div>
-      <button class="btn btn-default">⚙ 字段设置</button>
-      <button class="btn btn-default">⤓ 导出当前结果</button>
+      <button class="btn btn-primary" onclick="openUploadDrawer('freeze')"><i data-lucide="lock"></i>批量冻结</button>
+      <button class="btn btn-default" onclick="openUploadDrawer('unfreeze')"><i data-lucide="unlock"></i>批量解冻</button>
+      <button class="btn btn-ghost" onclick="downloadTemplate()"><i data-lucide="download"></i>下载文件模板</button>
+      <div style="flex:1"></div>
+      <button class="btn btn-ghost" onclick="showToast('字段配置（演示）','info')"><i data-lucide="settings-2"></i>字段设置</button>
+      <button class="btn btn-default" onclick="showToast('已导出当前 5 条记录','ok')"><i data-lucide="file-down"></i>导出</button>
     </div>
 
-    <div class="filter-bar">
-      <div class="filter-item">
-        <label>门店编码/名称</label>
-        <input type="text" placeholder="支持模糊搜索" value="">
-      </div>
-      <div class="filter-item">
-        <label>冻结类型</label>
-        <select>
-          <option>全部</option>
-          <option>法院冻结</option>
-          <option>手续费追缴</option>
-          <option>罚款</option>
-          <option>其他</option>
-        </select>
-      </div>
-      <div class="filter-item">
-        <label>状态</label>
-        <select>
-          <option>全部</option>
-          <option>待复核</option>
-          <option>已生效</option>
-          <option>待补冻中</option>
-          <option>部分解冻</option>
-          <option>已全部解冻</option>
-        </select>
-      </div>
-      <div class="filter-item">
-        <label>操作时间</label>
-        <input type="text" placeholder="2026-05-01 ~ 2026-05-27" value="2026-05-01 ~ 2026-05-27">
-      </div>
-      <div class="filter-actions">
-        <button class="btn btn-primary">查询</button>
-        <button class="btn btn-default">重置</button>
+    <div class="filter">
+      <div class="fld"><label>门店编码/名称</label><input type="text" placeholder="支持模糊搜索"></div>
+      <div class="fld"><label>冻结类型</label><select><option>全部</option><option>法院冻结</option><option>手续费追缴</option><option>罚款</option><option>其他</option></select></div>
+      <div class="fld"><label>状态</label><select><option>全部</option><option>待复核</option><option>已生效</option><option>待补冻中</option><option>部分解冻</option><option>已全部解冻</option></select></div>
+      <div class="fld"><label>操作时间</label><input type="text" value="2026-05-01 ~ 2026-05-27"></div>
+      <div class="fbtns">
+        <button class="btn btn-primary" onclick="showToast('已筛选 5 条记录','ok')"><i data-lucide="search"></i>查询</button>
+        <button class="btn btn-default" onclick="showToast('已重置筛选条件','info')">重置</button>
       </div>
     </div>
 
-    <table class="data-table">
+    <table class="tbl">
       <thead>
         <tr>
-          <th>门店编码</th>
-          <th>门店名称</th>
-          <th>冻结总额</th>
-          <th>营业款冻结</th>
-          <th>充值款冻结</th>
-          <th>待补冻</th>
-          <th>冻结类型</th>
-          <th>关联单号</th>
-          <th>操作人/复核人</th>
-          <th>冻结时间</th>
-          <th>状态</th>
-          <th style="text-align:right;">操作</th>
+          <th>门店</th><th>冻结总额</th><th>营业款冻结</th><th>充值款冻结</th><th>待补冻</th>
+          <th>冻结类型</th><th>关联单号</th><th>操作/复核人</th><th>冻结时间</th><th>状态</th><th style="text-align:right">操作</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td>BWCJ20231215</td>
-          <td>霸王茶姬·上海南京东路店</td>
-          <td class="amount amount-frozen">¥180,000.00</td>
-          <td class="amount">¥150,000.00</td>
-          <td class="amount">¥30,000.00</td>
-          <td class="amount">¥0.00</td>
-          <td><span class="badge badge-danger">法院冻结</span></td>
-          <td class="ellipsis">(2026)沪01执1234号</td>
-          <td>李佳 / 万晖</td>
-          <td>2026-05-20 14:23</td>
-          <td><span class="badge badge-success">已生效</span></td>
-          <td style="text-align:right;">
-            <button class="btn btn-link" style="padding:4px 6px;">明细</button>
-            <button class="btn btn-link" style="padding:4px 6px;">解冻</button>
-          </td>
+          <td><div class="store"><span class="nm">上海南京东路店</span><span class="cd">BWCJ20231215</span></div></td>
+          <td class="num err">¥180,000.00</td><td class="num">¥150,000.00</td><td class="num">¥30,000.00</td><td class="num gray">¥0.00</td>
+          <td><span class="badge b-court">法院冻结</span></td><td class="ell mono" style="font-size:11.5px">(2026)沪01执1234号</td>
+          <td>李佳 / 万晖</td><td class="mono" style="font-size:12px">2026-05-20 14:23</td>
+          <td><span class="badge s-eff"><i data-lucide="check-circle-2"></i>已生效</span></td>
+          <td><div class="row-act"><button class="btn-link" onclick="openFreezeDetailAdmin('shanghai')">明细</button><button class="btn-link" onclick="openUnfreezeConfirm('上海南京东路店','180,000.00')">解冻</button></div></td>
         </tr>
         <tr>
-          <td>BWCJ20230821</td>
-          <td>霸王茶姬·四川成都春熙店</td>
-          <td class="amount amount-pending">¥500,000.00</td>
-          <td class="amount">¥200,000.00</td>
-          <td class="amount">¥100,000.00</td>
-          <td class="amount amount-pending">¥200,000.00</td>
-          <td><span class="badge badge-danger">法院冻结</span></td>
-          <td class="ellipsis">(2026)川01执5678号</td>
-          <td>李佳 / 万晖</td>
-          <td>2026-05-25 10:45</td>
-          <td><span class="badge badge-warn">待补冻中</span></td>
-          <td style="text-align:right;">
-            <button class="btn btn-link" style="padding:4px 6px;">明细</button>
-            <button class="btn btn-link" style="padding:4px 6px;">解冻</button>
-          </td>
+          <td><div class="store"><span class="nm">四川成都春熙店</span><span class="cd">BWCJ20230821</span></div></td>
+          <td class="num warn">¥500,000.00</td><td class="num">¥200,000.00</td><td class="num">¥100,000.00</td><td class="num warn">¥200,000.00</td>
+          <td><span class="badge b-court">法院冻结</span></td><td class="ell mono" style="font-size:11.5px">(2026)川01执5678号</td>
+          <td>李佳 / 万晖</td><td class="mono" style="font-size:12px">2026-05-25 10:45</td>
+          <td><span class="badge s-wait"><i data-lucide="clock"></i>待补冻中</span></td>
+          <td><div class="row-act"><button class="btn-link" onclick="openFreezeDetailAdmin('chengdu')">明细</button><button class="btn-link" onclick="openUnfreezeConfirm('四川成都春熙店','500,000.00')">解冻</button></div></td>
         </tr>
         <tr>
-          <td>BWCJ20240312</td>
-          <td>霸王茶姬·北京三里屯店</td>
-          <td class="amount amount-frozen">¥80,000.00</td>
-          <td class="amount">¥80,000.00</td>
-          <td class="amount">¥0.00</td>
-          <td class="amount">¥0.00</td>
-          <td><span class="badge badge-warn">手续费追缴</span></td>
-          <td class="ellipsis">FEE20260401</td>
-          <td>鲍小晶 / -</td>
-          <td>2026-05-26 16:12</td>
-          <td><span class="badge badge-info">待复核</span></td>
-          <td style="text-align:right;">
-            <button class="btn btn-link" style="padding:4px 6px;">明细</button>
-            <button class="btn btn-link" style="padding:4px 6px;color:#10B981;">复核</button>
-          </td>
+          <td><div class="store"><span class="nm">北京三里屯店</span><span class="cd">BWCJ20240312</span></div></td>
+          <td class="num err">¥80,000.00</td><td class="num">¥80,000.00</td><td class="num">¥0.00</td><td class="num gray">¥0.00</td>
+          <td><span class="badge b-fee">手续费追缴</span></td><td class="ell mono" style="font-size:11.5px">FEE20260401</td>
+          <td>鲍小晶 / —</td><td class="mono" style="font-size:12px">2026-05-26 16:12</td>
+          <td><span class="badge s-rev"><i data-lucide="hourglass"></i>待复核</span></td>
+          <td><div class="row-act"><button class="btn-link" onclick="openFreezeDetailAdmin('beijing')">明细</button><button class="btn-link" style="color:var(--ok)" onclick="openReviewConfirm('北京三里屯店','80,000.00')">复核</button></div></td>
         </tr>
         <tr>
-          <td>BWCJ20230503</td>
-          <td>霸王茶姬·深圳COCO Park店</td>
-          <td class="amount amount-frozen">¥50,000.00</td>
-          <td class="amount">¥50,000.00</td>
-          <td class="amount">¥0.00</td>
-          <td class="amount">¥0.00</td>
-          <td><span class="badge badge-warn">手续费追缴</span></td>
-          <td class="ellipsis">FEE20260315</td>
-          <td>鲍小晶 / 邓代琴</td>
-          <td>2026-05-22 09:34</td>
-          <td><span class="badge badge-gray">部分解冻</span></td>
-          <td style="text-align:right;">
-            <button class="btn btn-link" style="padding:4px 6px;">明细</button>
-            <button class="btn btn-link" style="padding:4px 6px;">解冻</button>
-          </td>
+          <td><div class="store"><span class="nm">深圳COCO Park店</span><span class="cd">BWCJ20230503</span></div></td>
+          <td class="num err">¥50,000.00</td><td class="num">¥50,000.00</td><td class="num">¥0.00</td><td class="num gray">¥0.00</td>
+          <td><span class="badge b-fee">手续费追缴</span></td><td class="ell mono" style="font-size:11.5px">FEE20260315</td>
+          <td>鲍小晶 / 邓代琴</td><td class="mono" style="font-size:12px">2026-05-22 09:34</td>
+          <td><span class="badge s-part"><i data-lucide="circle-half"></i>部分解冻</span></td>
+          <td><div class="row-act"><button class="btn-link" onclick="openFreezeDetailAdmin('shenzhen')">明细</button><button class="btn-link" onclick="openUnfreezeConfirm('深圳COCO Park店','50,000.00')">解冻</button></div></td>
         </tr>
         <tr>
-          <td>BWCJ20240107</td>
-          <td>霸王茶姬·广州天河城店</td>
-          <td class="amount" style="color:#9CA3AF;">¥0.00</td>
-          <td class="amount" style="color:#9CA3AF;">¥0.00</td>
-          <td class="amount" style="color:#9CA3AF;">¥0.00</td>
-          <td class="amount" style="color:#9CA3AF;">¥0.00</td>
-          <td><span class="badge badge-gray">罚款</span></td>
-          <td class="ellipsis">PEN20260420</td>
-          <td>李佳 / 万晖</td>
-          <td>2026-05-15 11:20</td>
-          <td><span class="badge badge-gray">已全部解冻</span></td>
-          <td style="text-align:right;">
-            <button class="btn btn-link" style="padding:4px 6px;">明细</button>
-          </td>
+          <td><div class="store"><span class="nm">广州天河城店</span><span class="cd">BWCJ20240107</span></div></td>
+          <td class="num gray">¥0.00</td><td class="num gray">¥0.00</td><td class="num gray">¥0.00</td><td class="num gray">¥0.00</td>
+          <td><span class="badge b-pen">罚款</span></td><td class="ell mono" style="font-size:11.5px">PEN20260420</td>
+          <td>李佳 / 万晖</td><td class="mono" style="font-size:12px">2026-05-15 11:20</td>
+          <td><span class="badge s-done"><i data-lucide="check"></i>已全部解冻</span></td>
+          <td><div class="row-act"><button class="btn-link" onclick="openFreezeDetailAdmin('guangzhou')">明细</button></div></td>
         </tr>
       </tbody>
     </table>
 
-    <div class="pagination">
-      <span>共 247 条记录</span>
-      <div class="pages">
-        <span class="page-num">‹</span>
-        <span class="page-num active">1</span>
-        <span class="page-num">2</span>
-        <span class="page-num">3</span>
-        <span class="page-num">…</span>
-        <span class="page-num">25</span>
-        <span class="page-num">›</span>
+    <div class="page">
+      <span>共 247 条 · 每页 10 条</span>
+      <div class="ctrls">
+        <div class="pg">‹</div><div class="pg act">1</div><div class="pg">2</div><div class="pg">3</div><div class="pg">…</div><div class="pg">25</div><div class="pg">›</div>
       </div>
     </div>
   </div>
@@ -601,213 +691,389 @@ body { font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaH
 
 
 <!-- ============ 屏幕4：批量上传4步流程 ============ -->
-<div class="screen" id="s5">
-  <div class="screen-title">🖥️ 屏幕4 · 财务后台 · 批量冻结上传流程（桌面端）— 当前位于第2步「数据校验」，演示失败明细处理</div>
+<div class="screen" id="s4">
+  <div class="screen-head">
+    <div class="num">4</div>
+    <div class="info">
+      <h3>批量冻结 · 4步上传流程</h3>
+      <p>步骤条可点击切换演示：<code>上传文件 → 数据校验 → 复核确认 → 执行结果</code>。当前展示<b>第2步：数据校验</b>，含失败明细处理。</p>
+    </div>
+  </div>
+
   <div class="admin">
-    <div class="admin-header">
-      <div class="brand">
-        <div class="logo">财</div>
-        <span>财务中台 ／ 钱包管理</span>
-        <span class="crumbs">›<span>冻结管理</span> ›<span>批量冻结</span></span>
+    <div class="admin-bar">
+      <div class="l">
+        <div class="crumb"><i data-lucide="layout-dashboard"></i>财务中台<i data-lucide="chevron-right"></i>钱包管理<i data-lucide="chevron-right"></i>冻结管理<i data-lucide="chevron-right"></i><b>批量冻结</b></div>
       </div>
       <div class="user">
-        <span style="opacity:0.7;">操作员</span>
-        <span>邹鎏镭</span>
-        <div class="avatar">邹</div>
+        <span>操作员 · 邹鎏镭</span>
+        <div class="avt">JR</div>
       </div>
     </div>
 
-    <div class="steps">
-      <div class="step done">
-        <div class="step-num">✓</div>
-        <div class="step-info">
-          <span class="name">上传文件</span>
-          <span class="desc">已上传 freeze_20260527.xlsx</span>
-        </div>
+    <div class="steps" id="stepBar">
+      <div class="step done" data-step="1" onclick="gotoStep(1)">
+        <div class="step-num"><i data-lucide="check"></i></div>
+        <div class="step-info"><span class="n">上传文件</span><span class="d">freeze_20260527.xlsx</span></div>
       </div>
-      <div class="step current">
+      <div class="step-line done"></div>
+      <div class="step current" data-step="2" onclick="gotoStep(2)">
         <div class="step-num">2</div>
-        <div class="step-info">
-          <span class="name">数据校验</span>
-          <span class="desc">校验完成，请确认</span>
-        </div>
+        <div class="step-info"><span class="n">数据校验</span><span class="d">校验完成，请确认</span></div>
       </div>
-      <div class="step">
+      <div class="step-line"></div>
+      <div class="step" data-step="3" onclick="gotoStep(3)">
         <div class="step-num">3</div>
-        <div class="step-info">
-          <span class="name">复核确认</span>
-          <span class="desc">复核人审批</span>
-        </div>
+        <div class="step-info"><span class="n">复核确认</span><span class="d">复核人审批</span></div>
       </div>
-      <div class="step">
+      <div class="step-line"></div>
+      <div class="step" data-step="4" onclick="gotoStep(4)">
         <div class="step-num">4</div>
-        <div class="step-info">
-          <span class="name">执行结果</span>
-          <span class="desc">同步生效</span>
-        </div>
+        <div class="step-info"><span class="n">执行结果</span><span class="d">同步生效</span></div>
       </div>
     </div>
 
-    <div class="upload-result">
-      <div class="alert-box">
-        <div class="alert-icon">⚠️</div>
-        <div class="alert-content">
-          <strong>校验完成，发现 13 条数据异常</strong>
-          <span>异常记录不会被提交。您可选择「下载错误清单」修正后重新上传，或直接「继续提交 487 条有效记录」。</span>
+    <!-- 步骤2：数据校验内容 -->
+    <div class="result" id="stepPanel">
+      <div class="alert warn">
+        <i data-lucide="alert-triangle" class="icon"></i>
+        <div><b>校验完成，发现 13 条数据异常</b>异常记录不会被提交。可「下载错误清单」修正后重传，或直接「继续提交 487 条有效记录」。</div>
+      </div>
+
+      <div class="sum3">
+        <div class="scard total">
+          <div class="ic"><i data-lucide="file-spreadsheet"></i></div>
+          <div class="n">500</div><div class="l">上传总记录数</div>
+        </div>
+        <div class="scard suc">
+          <div class="ic"><i data-lucide="check-check"></i></div>
+          <div class="n">487</div><div class="l">校验通过</div>
+        </div>
+        <div class="scard fail">
+          <div class="ic"><i data-lucide="x-circle"></i></div>
+          <div class="n">13</div><div class="l">校验失败</div>
         </div>
       </div>
 
-      <div class="result-summary">
-        <div class="summary-card total">
-          <div class="num">500</div>
-          <div class="label-sm">上传总记录数</div>
-        </div>
-        <div class="summary-card success">
-          <div class="num">487</div>
-          <div class="label-sm">校验通过 ✓</div>
-        </div>
-        <div class="summary-card failed">
-          <div class="num">13</div>
-          <div class="label-sm">校验失败 ✗</div>
-        </div>
+      <h4 class="subhead">失败明细（13 条）</h4>
+      <div class="bordertbl">
+        <table class="tbl">
+          <thead><tr><th style="width:60px">行号</th><th>门店</th><th>冻结金额</th><th>冻结类型</th><th>关联单号</th><th>错误原因</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">5</td><td><div class="store"><span class="nm">测试店A</span><span class="cd">BWCJ99991234</span></div></td><td class="num">¥10,000.00</td><td><span class="badge b-court">法院冻结</span></td><td class="mono" style="font-size:11.5px">(2026)沪01执9999号</td><td style="color:var(--err);font-weight:500">门店编码不存在</td></tr>
+            <tr><td class="mono">12</td><td><div class="store"><span class="nm">杭州西湖店</span><span class="cd">BWCJ20240520</span></div></td><td class="num err">¥-5,000.00</td><td><span class="badge b-fee">手续费追缴</span></td><td class="mono" style="font-size:11.5px">FEE20260520</td><td style="color:var(--err);font-weight:500">金额必须大于0</td></tr>
+            <tr><td class="mono">28</td><td><div class="store"><span class="nm">上海南京东路店</span><span class="cd">BWCJ20231215</span></div></td><td class="num">¥80,000.00</td><td><span class="badge b-court">法院冻结</span></td><td class="mono" style="font-size:11.5px">(2026)沪01执1234号</td><td style="color:var(--err);font-weight:500">单号已存在，不可重复</td></tr>
+            <tr><td class="mono">45</td><td><div class="store"><span class="nm">成都春熙店</span><span class="cd">BWCJ20230821</span></div></td><td class="num">¥150,000.00</td><td><span class="badge b-fee">手续费追缴</span></td><td class="mono" style="font-size:11.5px">—</td><td style="color:var(--err);font-weight:500">关联单号不能为空</td></tr>
+            <tr><td class="mono">67</td><td><div class="store"><span class="nm">南京新街口店</span><span class="cd">BWCJ20240722</span></div></td><td class="num">¥abc.00</td><td><span class="badge b-pen">罚款</span></td><td class="mono" style="font-size:11.5px">PEN20260522</td><td style="color:var(--err);font-weight:500">金额格式错误</td></tr>
+            <tr><td colspan="6" style="text-align:center;color:var(--ink-3);font-size:12px;padding:14px">⋯ 还有 8 条失败记录 · <a href="javascript:;" onclick="showToast('已下载完整错误清单 errors_13.xlsx','ok')" style="color:var(--info)">查看完整清单</a></td></tr>
+          </tbody>
+        </table>
       </div>
 
-      <div class="section-title-admin">失败明细（13 条）</div>
-      <table class="data-table" style="border:1px solid #F3F4F6;border-radius:6px;overflow:hidden;">
-        <thead>
-          <tr>
-            <th style="width:60px;">行号</th>
-            <th>门店编码</th>
-            <th>门店名称</th>
-            <th>冻结金额</th>
-            <th>冻结类型</th>
-            <th>关联单号</th>
-            <th>错误原因</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>5</td>
-            <td>BWCJ99991234</td>
-            <td>霸王茶姬·测试店A</td>
-            <td class="amount">¥10,000.00</td>
-            <td><span class="badge badge-danger">法院冻结</span></td>
-            <td>(2026)沪01执9999号</td>
-            <td><span style="color:#EF4444;">门店编码不存在</span></td>
-          </tr>
-          <tr>
-            <td>12</td>
-            <td>BWCJ20240520</td>
-            <td>霸王茶姬·杭州西湖店</td>
-            <td class="amount" style="color:#EF4444;">¥-5,000.00</td>
-            <td><span class="badge badge-warn">手续费追缴</span></td>
-            <td>FEE20260520</td>
-            <td><span style="color:#EF4444;">金额必须大于0</span></td>
-          </tr>
-          <tr>
-            <td>28</td>
-            <td>BWCJ20231215</td>
-            <td>霸王茶姬·上海南京东路店</td>
-            <td class="amount">¥80,000.00</td>
-            <td><span class="badge badge-danger">法院冻结</span></td>
-            <td>(2026)沪01执1234号</td>
-            <td><span style="color:#EF4444;">单号已存在，不可重复冻结</span></td>
-          </tr>
-          <tr>
-            <td>45</td>
-            <td>BWCJ20230821</td>
-            <td>霸王茶姬·四川成都春熙店</td>
-            <td class="amount">¥150,000.00</td>
-            <td><span class="badge badge-warn">手续费追缴</span></td>
-            <td>—</td>
-            <td><span style="color:#EF4444;">关联单号不能为空</span></td>
-          </tr>
-          <tr>
-            <td>67</td>
-            <td>BWCJ20240722</td>
-            <td>霸王茶姬·南京新街口店</td>
-            <td class="amount">¥abc.00</td>
-            <td><span class="badge badge-warn">罚款</span></td>
-            <td>PEN20260522</td>
-            <td><span style="color:#EF4444;">金额格式错误</span></td>
-          </tr>
-          <tr>
-            <td colspan="7" style="text-align:center;color:#9CA3AF;font-size:12px;padding:12px;">⋯ 还有 8 条失败记录，<a href="#" style="color:#4F46E5;">查看全部</a></td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div class="divider"></div>
-
-      <div class="section-title-admin">有效记录预览（487 条 · 仅展示前3条）</div>
-      <table class="data-table" style="border:1px solid #F3F4F6;border-radius:6px;overflow:hidden;">
-        <thead>
-          <tr>
-            <th>行号</th>
-            <th>门店编码</th>
-            <th>门店名称</th>
-            <th>冻结金额</th>
-            <th>冻结类型</th>
-            <th>关联单号</th>
-            <th>预扣减预览</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td>BWCJ20210303</td>
-            <td>霸王茶姬·武汉光谷店</td>
-            <td class="amount amount-frozen">¥120,000.00</td>
-            <td><span class="badge badge-danger">法院冻结</span></td>
-            <td>(2026)鄂01执2233号</td>
-            <td class="text-muted">营业¥120,000 / 充值¥0 / 待补¥0</td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>BWCJ20220817</td>
-            <td>霸王茶姬·西安大唐不夜城店</td>
-            <td class="amount amount-pending">¥800,000.00</td>
-            <td><span class="badge badge-danger">法院冻结</span></td>
-            <td>(2026)陕01执3344号</td>
-            <td class="text-muted">营业¥500,000 / 充值¥200,000 / <b style="color:#F59E0B;">待补¥100,000</b></td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td>BWCJ20230621</td>
-            <td>霸王茶姬·苏州观前街店</td>
-            <td class="amount amount-frozen">¥45,000.00</td>
-            <td><span class="badge badge-warn">手续费追缴</span></td>
-            <td>FEE20260518</td>
-            <td class="text-muted">营业¥45,000 / 充值¥0 / 待补¥0</td>
-          </tr>
-        </tbody>
-      </table>
+      <h4 class="subhead">有效记录预览（487 条 · 前 3 条）</h4>
+      <div class="bordertbl">
+        <table class="tbl">
+          <thead><tr><th style="width:60px">行号</th><th>门店</th><th>冻结金额</th><th>冻结类型</th><th>关联单号</th><th>预扣减预览</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">1</td><td><div class="store"><span class="nm">武汉光谷店</span><span class="cd">BWCJ20210303</span></div></td><td class="num err">¥120,000.00</td><td><span class="badge b-court">法院冻结</span></td><td class="mono" style="font-size:11.5px">(2026)鄂01执2233号</td><td style="font-size:11.5px;color:var(--ink-2)">营业¥120,000 / 充值¥0 / 待补¥0</td></tr>
+            <tr><td class="mono">2</td><td><div class="store"><span class="nm">西安大唐不夜城店</span><span class="cd">BWCJ20220817</span></div></td><td class="num warn">¥800,000.00</td><td><span class="badge b-court">法院冻结</span></td><td class="mono" style="font-size:11.5px">(2026)陕01执3344号</td><td style="font-size:11.5px;color:var(--ink-2)">营业¥500,000 / 充值¥200,000 / <b style="color:var(--warn)">待补¥100,000</b></td></tr>
+            <tr><td class="mono">3</td><td><div class="store"><span class="nm">苏州观前街店</span><span class="cd">BWCJ20230621</span></div></td><td class="num err">¥45,000.00</td><td><span class="badge b-fee">手续费追缴</span></td><td class="mono" style="font-size:11.5px">FEE20260518</td><td style="font-size:11.5px;color:var(--ink-2)">营业¥45,000 / 充值¥0 / 待补¥0</td></tr>
+          </tbody>
+        </table>
+      </div>
     </div>
 
-    <div class="bottom-actions">
-      <button class="btn btn-default">‹ 上一步（重新上传）</button>
-      <div style="display:flex;gap:10px;">
-        <button class="btn btn-danger">⤓ 下载错误清单（13条）</button>
-        <button class="btn btn-primary">继续提交 487 条有效记录 ›</button>
+    <div class="bottom-acts">
+      <div class="l"><button class="btn btn-default" onclick="showToast('已返回上传环节','info')"><i data-lucide="chevron-left"></i>上一步</button></div>
+      <div class="r">
+        <button class="btn btn-default" onclick="showToast('已下载 errors_13.xlsx','ok')"><i data-lucide="file-down"></i>下载错误清单</button>
+        <button class="btn btn-primary" onclick="submitToReview()"><i data-lucide="send"></i>继续提交 487 条有效记录</button>
       </div>
     </div>
   </div>
 </div>
 
+</div><!-- /stage -->
+
+
+<!-- ============== 全局抽屉/弹窗 ============== -->
+<div class="drawer-mask" id="drawerMask" onclick="closeDrawer()"></div>
+
+<!-- 批量冻结/解冻上传抽屉 -->
+<div class="drawer" id="uploadDrawer">
+  <div class="drawer-h">
+    <h4 id="upTitle">批量冻结门店金额</h4>
+    <button class="close" onclick="closeDrawer()"><i data-lucide="x"></i></button>
+  </div>
+  <div class="drawer-b">
+    <div class="up-zone" onclick="simulateUpload()">
+      <div class="ico"><i data-lucide="upload-cloud"></i></div>
+      <div class="tt">点击或拖拽上传 Excel 文件</div>
+      <div class="st">支持 .xlsx / .xls 格式，单文件 ≤ 10MB，最多 5000 行</div>
+      <span class="pick">选择文件</span>
+    </div>
+
+    <div class="up-info">
+      <i data-lucide="info"></i>
+      <div>
+        <b>上传须知</b>
+        <ul>
+          <li>文件需包含：门店编码、门店名称、冻结金额、冻结类型、关联单号</li>
+          <li>系统将自动校验门店编码、金额格式、单号唯一性</li>
+          <li>冻结按 <b>营业款 → 充值款 → 待补冻</b> 顺序扣减</li>
+          <li>单笔金额 >100万 需财务总监审批</li>
+        </ul>
+      </div>
+    </div>
+
+    <div style="margin-top:18px;padding:14px;background:var(--brand-bg);border-radius:10px;display:flex;justify-content:space-between;align-items:center">
+      <div style="display:flex;align-items:center;gap:10px;font-size:13px;color:var(--ink)">
+        <i data-lucide="file-spreadsheet" style="width:20px;height:20px;color:var(--brand-2)"></i>
+        <div>
+          <div style="font-weight:600">freeze_template_v2.xlsx</div>
+          <div style="font-size:11px;color:var(--ink-2);margin-top:2px">12KB · 含字段说明sheet</div>
+        </div>
+      </div>
+      <button class="btn btn-default" onclick="downloadTemplate()"><i data-lucide="download"></i>下载模板</button>
+    </div>
+  </div>
+  <div class="drawer-f">
+    <button class="btn btn-default" onclick="closeDrawer()">取消</button>
+    <button class="btn btn-primary" onclick="closeDrawer();setTimeout(function(){switchTab('s4')},300)"><i data-lucide="arrow-right"></i>下一步：数据校验</button>
+  </div>
 </div>
+
+<!-- 冻结明细抽屉（后台） -->
+<div class="drawer" id="detailDrawer">
+  <div class="drawer-h">
+    <h4 id="detTitle">冻结明细 · 上海南京东路店</h4>
+    <button class="close" onclick="closeDrawer()"><i data-lucide="x"></i></button>
+  </div>
+  <div class="drawer-b">
+    <div style="margin-bottom:6px;font-size:12px;color:var(--ink-2);font-family:'DM Mono',monospace">门店编码 <span id="detCode" style="color:var(--ink);font-weight:600">BWCJ20231215</span></div>
+    <div class="drawer-grid" style="margin-top:14px">
+      <div class="k-card brand">
+        <div class="l">冻结总额</div>
+        <div class="v" id="detTotal">¥180,000.00</div>
+      </div>
+      <div class="k-card">
+        <div class="l">营业款冻结</div>
+        <div class="v" id="detYy">¥150,000.00</div>
+      </div>
+      <div class="k-card">
+        <div class="l">充值款冻结</div>
+        <div class="v" id="detCz">¥30,000.00</div>
+      </div>
+      <div class="k-card warn">
+        <div class="l">待补冻</div>
+        <div class="v" id="detPending">¥0.00</div>
+      </div>
+    </div>
+
+    <h4 class="subhead" style="margin-top:18px">冻结记录</h4>
+    <div class="fzdt-list" id="detList">
+      <!-- 动态填充 -->
+    </div>
+
+    <h4 class="subhead" style="margin-top:18px">操作日志</h4>
+    <div style="border:1px solid var(--line);border-radius:10px;padding:14px;font-size:12.5px;color:var(--ink-2)">
+      <div style="display:flex;gap:10px;padding:6px 0"><span class="mono" style="color:var(--ink-3);min-width:120px">2026-05-20 14:23</span><span><b style="color:var(--ink)">李佳</b> 创建冻结请求</span></div>
+      <div style="display:flex;gap:10px;padding:6px 0;border-top:1px dashed var(--line)"><span class="mono" style="color:var(--ink-3);min-width:120px">2026-05-20 14:25</span><span><b style="color:var(--ink)">万晖</b> 复核通过</span></div>
+      <div style="display:flex;gap:10px;padding:6px 0;border-top:1px dashed var(--line)"><span class="mono" style="color:var(--ink-3);min-width:120px">2026-05-20 14:25</span><span><b style="color:var(--ok)">系统</b> 已执行冻结 ¥180,000.00</span></div>
+    </div>
+  </div>
+  <div class="drawer-f">
+    <button class="btn btn-default" onclick="closeDrawer()">关闭</button>
+    <button class="btn btn-primary" onclick="closeDrawer();showToast('已开始解冻流程','ok')"><i data-lucide="unlock"></i>发起解冻</button>
+  </div>
+</div>
+
+<!-- 解冻确认弹窗 -->
+<div class="modal-mask" id="confirmMask" onclick="closeModal()"></div>
+<div class="modal" id="confirmModal">
+  <div class="modal-h">
+    <h4 id="confTitle"><i data-lucide="alert-circle"></i>确认操作</h4>
+    <button class="close" onclick="closeModal()"><i data-lucide="x"></i></button>
+  </div>
+  <div class="modal-b">
+    <p id="confDesc" style="font-size:14px;color:var(--ink);line-height:1.7">即将对 <b id="confStore">门店</b> 发起解冻，金额 <b style="color:var(--err)" id="confAmt">¥0.00</b>。</p>
+    <p style="font-size:12.5px;color:var(--ink-2);margin-top:10px">解冻将按 <b>待补冻 → 充值款 → 营业款</b> 反向顺序释放资金，请确认无误。</p>
+    <div style="margin-top:14px"><label style="display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--ink-2)"><input type="checkbox" id="confChk"> 我已确认操作依据并承担相应责任</label></div>
+  </div>
+  <div class="modal-f">
+    <button class="btn btn-default" onclick="closeModal()">取消</button>
+    <button class="btn btn-primary" id="confBtn" onclick="confirmAction()">确认</button>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"><i data-lucide="check-circle-2"></i><span id="toastMsg">提示文字</span></div>
 
 
 <script>
-document.querySelectorAll('.app-nav .tab').forEach(function(tab){
-  tab.addEventListener('click',function(){
-    var key = tab.getAttribute('data-tab');
-    document.querySelectorAll('.app-nav .tab').forEach(function(t){ t.classList.remove('active'); });
-    tab.classList.add('active');
-    document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('active'); });
-    var el = document.getElementById(key);
-    if(el) el.classList.add('active');
-    window.scrollTo({top:0,behavior:'smooth'});
+// ============== Tab 切换 ==============
+function switchTab(key){
+  document.querySelectorAll('.topbar .tab').forEach(function(t){
+    t.classList.toggle('active', t.getAttribute('data-tab')===key);
   });
+  document.querySelectorAll('.screen').forEach(function(s){
+    s.classList.toggle('active', s.id===key);
+  });
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+document.querySelectorAll('.topbar .tab').forEach(function(t){
+  t.addEventListener('click',function(){ switchTab(t.getAttribute('data-tab')); });
+});
+
+// ============== Toast ==============
+var toastTimer;
+function showToast(msg, type){
+  type = type || 'ok';
+  var t = document.getElementById('toast');
+  var icon = type==='ok' ? 'check-circle-2' : (type==='err' ? 'x-circle' : 'info');
+  t.className = 'toast show ' + (type==='err'?'err':(type==='info'?'info':''));
+  t.innerHTML = '<i data-lucide="'+icon+'"></i><span>'+msg+'</span>';
+  if(window.lucide) lucide.createIcons();
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function(){ t.classList.remove('show'); }, 2200);
+}
+
+// ============== 屏幕1 钱包首页：点击冻结条 ==============
+function openFreezeDetail(){
+  showToast('打开冻结明细页（移动端原型示意 → 进入第3屏后台查看完整明细）','info');
+  setTimeout(function(){ switchTab('s3'); }, 1200);
+}
+
+// ============== 屏幕2 提现拦截 ==============
+function prefillMax(){
+  document.getElementById('wd-amt').textContent = '206,520.50';
+  showToast('已填入最大可用金额','ok');
+}
+function openInterceptSheet(){
+  document.getElementById('iSheet').style.display='flex';
+}
+function closeInterceptSheet(){
+  document.getElementById('iSheet').style.display='none';
+}
+function confirmMaxWithdraw(){
+  closeInterceptSheet();
+  document.getElementById('wd-amt').textContent='206,520.50';
+  showToast('提现申请已提交，1-2小时内到账','ok');
+}
+
+// ============== 屏幕3 后台 ==============
+// 上传抽屉
+function openUploadDrawer(type){
+  document.getElementById('upTitle').textContent = type==='freeze' ? '批量冻结门店金额' : '批量解冻门店金额';
+  document.getElementById('uploadDrawer').classList.add('show');
+  document.getElementById('drawerMask').classList.add('show');
+  document.getElementById('detailDrawer').classList.remove('show');
+  if(window.lucide) lucide.createIcons();
+}
+function closeDrawer(){
+  document.getElementById('uploadDrawer').classList.remove('show');
+  document.getElementById('detailDrawer').classList.remove('show');
+  document.getElementById('drawerMask').classList.remove('show');
+}
+function simulateUpload(){
+  showToast('文件上传中...','info');
+  setTimeout(function(){ showToast('上传成功 freeze_20260527.xlsx (500条)','ok'); }, 900);
+}
+function downloadTemplate(){
+  showToast('已下载 freeze_template_v2.xlsx (12KB)','ok');
+}
+
+// 冻结明细数据
+var detailData = {
+  shanghai:{name:'上海南京东路店',code:'BWCJ20231215',total:'180,000.00',yy:'150,000.00',cz:'30,000.00',pending:'0.00',
+    list:[
+      {type:'court',label:'法院冻结',amt:'150,000.00',no:'(2026)沪01执1234号',time:'2026-05-20',rsn:'根据上海一中院民事执行通知书冻结',contact:'万晖 / 财务'},
+      {type:'fee',label:'手续费追缴',amt:'30,000.00',no:'FEE20260301',time:'2026-03-01',rsn:'2025Q4 历史手续费未补缴',contact:'鲍小晶 / 财务'}
+    ]},
+  chengdu:{name:'四川成都春熙店',code:'BWCJ20230821',total:'500,000.00',yy:'200,000.00',cz:'100,000.00',pending:'200,000.00',
+    list:[{type:'court',label:'法院冻结',amt:'500,000.00',no:'(2026)川01执5678号',time:'2026-05-25',rsn:'根据成都中院民事执行通知书冻结，需待补冻¥200,000',contact:'万晖 / 财务'}]},
+  beijing:{name:'北京三里屯店',code:'BWCJ20240312',total:'80,000.00',yy:'80,000.00',cz:'0.00',pending:'0.00',
+    list:[{type:'fee',label:'手续费追缴',amt:'80,000.00',no:'FEE20260401',time:'2026-04-01',rsn:'2026Q1 历史手续费未补缴',contact:'鲍小晶 / 财务'}]},
+  shenzhen:{name:'深圳COCO Park店',code:'BWCJ20230503',total:'50,000.00',yy:'50,000.00',cz:'0.00',pending:'0.00',
+    list:[{type:'fee',label:'手续费追缴',amt:'50,000.00',no:'FEE20260315',time:'2026-03-15',rsn:'2025Q4 部分手续费补缴',contact:'邓代琴 / 财务'}]},
+  guangzhou:{name:'广州天河城店',code:'BWCJ20240107',total:'0.00',yy:'0.00',cz:'0.00',pending:'0.00',
+    list:[{type:'pen',label:'罚款',amt:'已全部解冻',no:'PEN20260420',time:'2026-04-20',rsn:'罚款已全额缴纳，2026-05-25 解冻',contact:'万晖 / 财务'}]}
+};
+function openFreezeDetailAdmin(key){
+  var d = detailData[key];
+  document.getElementById('detTitle').textContent = '冻结明细 · ' + d.name;
+  document.getElementById('detCode').textContent = d.code;
+  document.getElementById('detTotal').textContent = '¥' + d.total;
+  document.getElementById('detYy').textContent = '¥' + d.yy;
+  document.getElementById('detCz').textContent = '¥' + d.cz;
+  document.getElementById('detPending').textContent = '¥' + d.pending;
+  var html = '';
+  d.list.forEach(function(r){
+    html += '<div class="fzdt-row"><div class="top"><div class="ttls"><span class="badge b-'+r.type+'">'+r.label+'</span><span class="mono" style="font-size:12px;color:var(--ink-2)">'+r.no+'</span></div><div class="amts">¥'+r.amt+'</div></div><div class="meta"><div>冻结时间 <b>'+r.time+'</b></div><div>申诉联系人 <b>'+r.contact+'</b></div><div style="grid-column:span 2;color:var(--ink-2)">依据：'+r.rsn+'</div></div></div>';
+  });
+  document.getElementById('detList').innerHTML = html;
+  document.getElementById('detailDrawer').classList.add('show');
+  document.getElementById('drawerMask').classList.add('show');
+  document.getElementById('uploadDrawer').classList.remove('show');
+  if(window.lucide) lucide.createIcons();
+}
+
+// 确认弹窗
+var confType = '';
+function openModal(){ document.getElementById('confirmMask').classList.add('show'); document.getElementById('confirmModal').classList.add('show'); document.getElementById('confChk').checked=false; if(window.lucide) lucide.createIcons(); }
+function closeModal(){ document.getElementById('confirmMask').classList.remove('show'); document.getElementById('confirmModal').classList.remove('show'); }
+function openUnfreezeConfirm(name, amt){
+  confType='unfreeze';
+  document.getElementById('confTitle').innerHTML = '<i data-lucide="unlock"></i>确认解冻操作';
+  document.getElementById('confStore').textContent = name;
+  document.getElementById('confAmt').textContent = '¥' + amt;
+  document.getElementById('confDesc').innerHTML = '即将对 <b>'+name+'</b> 发起解冻，金额 <b style="color:var(--err)">¥'+amt+'</b>。';
+  document.getElementById('confBtn').textContent = '确认解冻';
+  openModal();
+}
+function openReviewConfirm(name, amt){
+  confType='review';
+  document.getElementById('confTitle').innerHTML = '<i data-lucide="check-circle"></i>复核冻结请求';
+  document.getElementById('confStore').textContent = name;
+  document.getElementById('confAmt').textContent = '¥' + amt;
+  document.getElementById('confDesc').innerHTML = '<b>'+name+'</b> 提交的冻结请求 <b style="color:var(--err)">¥'+amt+'</b>，复核通过后将立即执行扣减。';
+  document.getElementById('confBtn').textContent = '复核通过';
+  openModal();
+}
+function confirmAction(){
+  if(!document.getElementById('confChk').checked){ showToast('请先勾选确认事项','err'); return; }
+  closeModal();
+  if(confType==='unfreeze') showToast('解冻操作已提交，等待复核','ok');
+  else if(confType==='review') showToast('复核通过，冻结已生效','ok');
+}
+
+// ============== 屏幕4 步骤切换 ==============
+function gotoStep(n){
+  var steps = document.querySelectorAll('#stepBar .step');
+  var lines = document.querySelectorAll('#stepBar .step-line');
+  steps.forEach(function(s,i){
+    s.classList.remove('done','current');
+    var num = i+1;
+    if(num<n) s.classList.add('done');
+    else if(num===n) s.classList.add('current');
+    var icon = s.querySelector('.step-num');
+    icon.innerHTML = (num<n) ? '<i data-lucide="check"></i>' : num;
+  });
+  lines.forEach(function(l,i){
+    l.classList.toggle('done', i<n-1);
+  });
+  var labels = ['','上传文件','数据校验','复核确认','执行结果'];
+  showToast('已切换至第'+n+'步：'+labels[n],'info');
+  if(window.lucide) lucide.createIcons();
+}
+function submitToReview(){
+  showToast('已提交 487 条记录至复核流程','ok');
+  setTimeout(function(){ gotoStep(3); }, 500);
+}
+
+// ============== 初始化 ==============
+window.addEventListener('DOMContentLoaded', function(){
+  if(window.lucide) lucide.createIcons();
 });
 </script>
 
