@@ -207,6 +207,30 @@ a{color:inherit;text-decoration:none}
 .toast.err i{color:#FCA5A5}
 .toast.info i{color:#93C5FD}
 
+
+/* ============== 提现页 V3：对齐现有钱包橙茶风格 ============== */
+.withdraw2{height:100%;background:linear-gradient(180deg,var(--brand-bg) 0%,var(--brand-bg-2) 176px,#F4F1EB 100%);padding-top:44px;overflow-y:auto;position:relative}
+.wd2-nav{height:50px;padding:0 16px;display:flex;align-items:center;justify-content:space-between;color:#1B1E27}
+.wd2-nav .t{font-size:16px;font-weight:700;letter-spacing:.2px}
+.wd2-nav i{width:20px;height:20px}
+.wd2-nav .hist{font-size:12px;color:#6F573D;background:rgba(255,255,255,.55);padding:5px 10px;border-radius:14px;cursor:pointer}
+.wd2-body{padding:8px 16px 22px}
+.wd2-acct{background:rgba(255,255,255,.75);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.6);border-radius:16px;padding:13px 14px;display:flex;align-items:center;gap:12px;box-shadow:var(--shadow-sm);margin-bottom:12px}
+.wd2-acct .lg{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,#C43B31,#E96B5E);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;box-shadow:0 8px 16px rgba(196,59,49,.18)}
+.wd2-acct .info{flex:1}.wd2-acct .nm{font-size:14px;font-weight:650;color:var(--ink)}.wd2-acct .dot{letter-spacing:1px;color:var(--ink-3)}.wd2-acct .nb{font-size:11px;color:var(--ink-2);margin-top:2px}.wd2-acct .ck{font-size:12px;color:var(--brand-2);display:flex;align-items:center;gap:2px;cursor:pointer}
+.wd2-amount-box{background:#fff;border-radius:18px;padding:18px 16px 14px;box-shadow:0 10px 24px rgba(60,48,32,.08);border:1px solid rgba(156,107,61,.08);margin-bottom:12px}
+.wd2-amt-label{font-size:12.5px;color:var(--ink-2);font-weight:500;margin-bottom:12px}.wd2-amt-row{display:flex;align-items:baseline;gap:7px;position:relative;padding-bottom:14px;border-bottom:1px solid var(--line-2)}
+.wd2-amt-row .y{font-size:24px;font-weight:700;color:var(--ink)}.wd2-amt-row .n{font-size:40px;line-height:1;font-weight:800;color:var(--ink);font-family:"DM Mono",ui-monospace,monospace;letter-spacing:-1px}.wd2-amt-row .clear{margin-left:auto;color:var(--ink-3);cursor:pointer}.wd2-amt-row .clear i{width:18px;height:18px}
+.wd2-amt-helper{padding-top:11px;font-size:12px;color:var(--ink-2);display:flex;align-items:center;justify-content:space-between}.wd2-amt-helper b{color:var(--ink);font-family:"DM Mono",monospace}.wd2-amt-helper a{color:var(--brand-2);font-weight:650;cursor:pointer;margin-left:4px}
+.wd2-balance-mini{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}.wd2-mini-card{background:rgba(255,255,255,.78);border:1px solid rgba(255,255,255,.7);border-radius:14px;padding:12px;box-shadow:var(--shadow-sm)}.wd2-mini-card .l{font-size:11px;color:var(--ink-2);margin-bottom:4px}.wd2-mini-card .v{font-size:15px;font-weight:700;font-family:"DM Mono",monospace;color:var(--ink)}.wd2-mini-card.err{background:#FFF6F6;border-color:#FAD4D6}.wd2-mini-card.err .v{color:var(--err)}
+.wd2-warn{background:#FFF8F8;border:1px solid #FAD4D6;border-radius:13px;padding:11px 12px;display:flex;align-items:center;gap:8px;color:#B22A2F;font-size:12px;margin-bottom:12px;cursor:pointer}.wd2-warn .ic{width:15px;height:15px;flex-shrink:0}.wd2-warn b{font-family:"DM Mono",monospace}.wd2-warn .arr{width:14px;height:14px;margin-left:auto;color:#C45A5F}
+.wd2-keyboard{background:rgba(255,255,255,.65);border-radius:16px;padding:8px;margin-bottom:12px;box-shadow:var(--shadow-sm)}.kb-row{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:6px}.kb-row:last-child{margin-bottom:0}.kb-row span{height:42px;background:#fff;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:600;color:var(--ink);box-shadow:0 1px 0 rgba(0,0,0,.03)}.kb-row .back i{width:20px;height:20px;color:var(--ink-2)}
+.wd2-submit{width:100%;height:48px;border-radius:24px;background:linear-gradient(180deg,var(--brand) 0%,var(--brand-2) 100%);color:#fff;font-size:15px;font-weight:700;box-shadow:0 8px 18px rgba(156,107,61,.26);display:flex;align-items:center;justify-content:center}.wd2-submit:active{transform:scale(.985)}.wd2-tip{text-align:center;color:#8B735A;font-size:11px;margin-top:10px}.wd2-tip a{color:var(--brand-2);font-weight:650;cursor:pointer}
+.fzitem-v2{background:#FFF8F8;border:1px solid #FAD4D6;border-radius:12px;padding:12px;margin-bottom:8px;display:flex;align-items:flex-start;justify-content:space-between;gap:10px}.fzitem-v2 .l{display:flex;flex-direction:column;gap:3px;min-width:0}.fzitem-v2 .no{font-size:12px;color:var(--ink);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:210px}.fzitem-v2 .meta{font-size:10.8px;color:var(--ink-2)}.fzitem-v2 .amt{font-size:14px;font-weight:800;color:var(--err);font-family:"DM Mono",monospace;white-space:nowrap}
+
+/* ============== 审批页面 ============== */
+.approval-layout{display:grid;grid-template-columns:1.15fr .85fr;gap:18px;padding:22px 24px}.approval-card{border:1px solid var(--line);border-radius:14px;background:#fff;overflow:hidden}.approval-card .hd{padding:15px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;background:#FAFBFD}.approval-card .hd h4{font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px}.approval-card .hd h4 i{width:16px;height:16px;color:var(--brand-2)}.approval-card .bd{padding:18px}.kvgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.kv{background:#FAFBFD;border:1px solid var(--line-2);border-radius:10px;padding:11px 12px}.kv .k{font-size:11px;color:var(--ink-2);margin-bottom:4px}.kv .v{font-size:13.5px;font-weight:650;color:var(--ink)}.kv .v.num{font-family:"DM Mono",monospace;color:var(--err);font-size:16px}.approval-flow{display:flex;flex-direction:column;gap:14px}.flow-item{display:flex;gap:12px;position:relative}.flow-item:not(:last-child)::after{content:"";position:absolute;left:15px;top:32px;bottom:-15px;width:2px;background:var(--line)}.flow-dot{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:#fff;border:2px solid var(--line);z-index:1}.flow-dot i{width:15px;height:15px}.flow-item.done .flow-dot{background:var(--ok);border-color:var(--ok);color:#fff}.flow-item.current .flow-dot{background:var(--ink);border-color:var(--ink);color:#fff;box-shadow:0 0 0 5px rgba(27,30,39,.08)}.flow-main{flex:1;padding-bottom:4px}.flow-title{font-size:13.5px;font-weight:700;color:var(--ink);display:flex;align-items:center;justify-content:space-between}.flow-title .time{font-size:11px;font-weight:400;color:var(--ink-3);font-family:"DM Mono",monospace}.flow-desc{font-size:12px;color:var(--ink-2);margin-top:3px;line-height:1.55}.approval-actions{display:flex;gap:10px;justify-content:flex-end;border-top:1px solid var(--line);padding:16px 18px;background:#FAFBFD}.opinion{width:100%;min-height:86px;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-family:inherit;font-size:13px;resize:none;outline:none}.opinion:focus{border-color:var(--ink)}
+
 /* ============== 后台公共样式 ============== */
 .admin{background:#fff;border-radius:var(--r-lg);border:1px solid var(--line);box-shadow:var(--shadow);overflow:hidden}
 .admin-bar{padding:18px 24px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;background:linear-gradient(180deg,#FFFFFF 0%,#FAFBFD 100%)}
@@ -234,7 +258,7 @@ a{color:inherit;text-decoration:none}
 .btn-danger-text:hover{background:var(--err-bg)}
 
 /* 筛选区 */
-.filter{padding:16px 24px;background:#FAFBFD;display:grid;grid-template-columns:repeat(4,1fr) auto;gap:14px;align-items:end;border-bottom:1px solid var(--line-2)}
+.filter{padding:16px 24px;background:#FAFBFD;display:grid;grid-template-columns:repeat(3,1fr) auto;gap:14px;align-items:end;border-bottom:1px solid var(--line-2)}
 .fld{display:flex;flex-direction:column;gap:5px}
 .fld label{font-size:11.5px;color:var(--ink-2);font-weight:500}
 .fld input,.fld select{padding:9px 12px;background:#fff;border:1px solid var(--line);border-radius:7px;font-size:13px;color:var(--ink);outline:none;font-family:inherit;transition:border-color .15s}
@@ -392,6 +416,7 @@ a{color:inherit;text-decoration:none}
       <div class="tab" data-tab="s2"><span class="dot">2</span>提现拦截</div>
       <div class="tab" data-tab="s3"><span class="dot">3</span>冻结管理列表</div>
       <div class="tab" data-tab="s4"><span class="dot">4</span>批量上传流程</div>
+      <div class="tab" data-tab="s5"><span class="dot">5</span>冻结审批</div>
     </div>
     <div class="ver">© 霸王茶姬 · E端支付中台</div>
   </div>
@@ -440,7 +465,6 @@ a{color:inherit;text-decoration:none}
                 <div class="icon"><i data-lucide="lock"></i></div>
                 <span>已冻结</span>
                 <span class="amt-frz">¥180,000.00</span>
-                <span class="tip">含待补冻 ¥0</span>
               </div>
               <div class="arrow"><i data-lucide="chevron-right"></i></div>
             </div>
@@ -492,13 +516,13 @@ a{color:inherit;text-decoration:none}
   </div>
 </div>
 
-<!-- ============ 屏幕2：提现拦截弹窗 ============ -->
+<!-- ============ 屏幕2：提现拦截弹窗（match钱包风格） ============ -->
 <div class="screen" id="s2">
   <div class="screen-head">
     <div class="num">2</div>
     <div class="info">
-      <h3>提现拦截弹窗（移动端）</h3>
-      <p>输入金额 <code>30 万</code> → 点击「提现」 → 弹出拦截弹窗。弹窗内含 <code>账户分解 + 冻结明细 + 提取最大可用</code> 一键操作。</p>
+      <h3>提现页 + 拦截弹窗（移动端，match 钱包橙茶风格）</h3>
+      <p>提现页按示例图的现有钱包风格重做：橙茶背景、白色卡片、底部数字键盘；拦截弹窗已去掉冻结类型，只说明冻结了多少余额。</p>
     </div>
   </div>
 
@@ -510,49 +534,76 @@ a{color:inherit;text-decoration:none}
           <span class="right"><i data-lucide="signal" style="width:14px;height:14px;"></i><i data-lucide="wifi" style="width:14px;height:14px;"></i><i data-lucide="battery-full" style="width:18px;height:14px;"></i></span>
         </div>
 
-        <div class="withdraw">
-          <div class="withdraw-nav">
+        <div class="withdraw2">
+          <div class="wd2-nav">
             <i data-lucide="chevron-left" onclick="switchTab('s1')" style="cursor:pointer"></i>
-            <div class="t">提现到银行卡</div>
-            <i data-lucide="more-horizontal"></i>
+            <div class="t">提现</div>
+            <span class="hist" onclick="showToast('打开提现记录','info')">提现记录</span>
           </div>
-          <div class="wd-body">
-            <div class="wd-card">
-              <div class="lab"><span>提现金额</span><span style="color:var(--ink-3)">单笔最高 ¥50万</span></div>
-              <div class="wd-input"><span class="y">¥</span><span class="n" id="wd-amt">300,000.00</span></div>
-              <div class="wd-helper">
-                <span>账户余额 ¥386,520.50</span>
-                <span class="max" onclick="prefillMax()" style="cursor:pointer">最多可提 ¥206,520.50</span>
-              </div>
-            </div>
 
-            <div class="wd-quick">
-              <span>1万</span><span>5万</span><span>10万</span><span class="act">30万</span><span>全部</span>
-            </div>
-
-            <div class="wd-acct">
+          <div class="wd2-body">
+            <!-- 提现至银行卡 -->
+            <div class="wd2-acct">
               <div class="lg">招</div>
               <div class="info">
-                <div class="nm">招商银行</div>
-                <div class="nb">**** **** **** 8821</div>
+                <div class="nm">招商银行 <span class="dot">···</span> 8821</div>
+                <div class="nb">预计 1-2 小时内到账</div>
               </div>
-              <div class="ck">切换</div>
+              <div class="ck" onclick="showToast('切换银行卡','info')">切换<i data-lucide="chevron-right" style="width:14px;height:14px;"></i></div>
             </div>
 
-            <button class="wd-submit able" onclick="openInterceptSheet()">
-              <i data-lucide="arrow-up-right" style="width:16px;height:16px;"></i>
-              立即提现
-            </button>
-            <div style="text-align:center;font-size:11px;color:var(--ink-3);margin-top:14px">提现将在 1-2 小时内到账</div>
+            <!-- 提现金额输入 -->
+            <div class="wd2-amount-box">
+              <div class="wd2-amt-label">提现金额</div>
+              <div class="wd2-amt-row">
+                <span class="y">¥</span>
+                <span class="n" id="wd-amt">300,000.00</span>
+                <span class="clear" onclick="document.getElementById('wd-amt').textContent='0.00'">
+                  <i data-lucide="x-circle"></i>
+                </span>
+              </div>
+              <div class="wd2-amt-helper">
+                <span>可提现 <b>¥206,520.50</b>，<a onclick="prefillMax()">全部提现</a></span>
+              </div>
+            </div>
+
+            <div class="wd2-balance-mini">
+              <div class="wd2-mini-card">
+                <div class="l">当前总余额</div>
+                <div class="v">¥386,520.50</div>
+              </div>
+              <div class="wd2-mini-card err">
+                <div class="l">已冻结余额</div>
+                <div class="v">¥180,000.00</div>
+              </div>
+            </div>
+
+            <!-- 提示 -->
+            <div class="wd2-warn" onclick="openFreezeDetail()">
+              <i data-lucide="info" class="ic"></i>
+              <span>已冻结余额 <b>¥180,000.00</b>，当前最多可提现 ¥206,520.50</span>
+              <i data-lucide="chevron-right" class="arr"></i>
+            </div>
+
+            <!-- 数字键盘区 -->
+            <div class="wd2-keyboard">
+              <div class="kb-row"><span>1</span><span>2</span><span>3</span></div>
+              <div class="kb-row"><span>4</span><span>5</span><span>6</span></div>
+              <div class="kb-row"><span>7</span><span>8</span><span>9</span></div>
+              <div class="kb-row"><span>.</span><span>0</span><span class="back"><i data-lucide="delete"></i></span></div>
+            </div>
+
+            <button class="wd2-submit" onclick="openInterceptSheet()">立即提现</button>
+            <div class="wd2-tip">提现需扣除 0.1% 手续费 · <a onclick="showToast('查看费率说明','info')">费率说明</a></div>
           </div>
 
-          <!-- 拦截 sheet -->
+          <!-- 拦截 sheet（去冻结类型） -->
           <div class="mask" id="iSheet" style="display:none">
             <div class="sheet">
               <div class="sheet-head">
                 <div class="sheet-icon"><i data-lucide="lock"></i></div>
                 <div class="sheet-title">部分余额暂不可提现</div>
-                <div class="sheet-sub">您账户存在冻结金额，请确认操作</div>
+                <div class="sheet-sub">已冻结余额不支持提现，剩余金额可继续提取</div>
               </div>
 
               <div class="brk">
@@ -563,13 +614,19 @@ a{color:inherit;text-decoration:none}
               </div>
 
               <div class="fz-list">
-                <div class="ttl">冻结明细</div>
-                <div class="fzitem">
-                  <div class="l"><span class="tag court">法院冻结</span><span class="no">(2026)沪01执1234号</span></div>
+                <div class="ttl">冻结余额明细</div>
+                <div class="fzitem-v2">
+                  <div class="l">
+                    <span class="no">冻结余额 ¥150,000.00</span>
+                    <span class="meta">冻结编号 (2026)沪01执1234号 · 2026-05-20</span>
+                  </div>
                   <div class="amt">¥150,000.00</div>
                 </div>
-                <div class="fzitem">
-                  <div class="l"><span class="tag fee">手续费追缴</span><span class="no">FEE20260301</span></div>
+                <div class="fzitem-v2">
+                  <div class="l">
+                    <span class="no">冻结余额 ¥30,000.00</span>
+                    <span class="meta">冻结编号 FEE20260301 · 2026-03-01</span>
+                  </div>
                   <div class="amt">¥30,000.00</div>
                 </div>
               </div>
@@ -586,7 +643,6 @@ a{color:inherit;text-decoration:none}
     </div>
   </div>
 </div>
-
 
 <!-- ============ 屏幕3：后台冻结管理列表 ============ -->
 <div class="screen" id="s3">
@@ -620,7 +676,6 @@ a{color:inherit;text-decoration:none}
 
     <div class="filter">
       <div class="fld"><label>门店编码/名称</label><input type="text" placeholder="支持模糊搜索"></div>
-      <div class="fld"><label>冻结类型</label><select><option>全部</option><option>法院冻结</option><option>手续费追缴</option><option>罚款</option><option>其他</option></select></div>
       <div class="fld"><label>状态</label><select><option>全部</option><option>待复核</option><option>已生效</option><option>待补冻中</option><option>部分解冻</option><option>已全部解冻</option></select></div>
       <div class="fld"><label>操作时间</label><input type="text" value="2026-05-01 ~ 2026-05-27"></div>
       <div class="fbtns">
@@ -633,14 +688,14 @@ a{color:inherit;text-decoration:none}
       <thead>
         <tr>
           <th>门店</th><th>冻结总额</th><th>营业款冻结</th><th>充值款冻结</th><th>待补冻</th>
-          <th>冻结类型</th><th>关联单号</th><th>操作/复核人</th><th>冻结时间</th><th>状态</th><th style="text-align:right">操作</th>
+          <th>关联单号</th><th>操作/复核人</th><th>冻结时间</th><th>状态</th><th style="text-align:right">操作</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td><div class="store"><span class="nm">上海南京东路店</span><span class="cd">BWCJ20231215</span></div></td>
           <td class="num err">¥180,000.00</td><td class="num">¥150,000.00</td><td class="num">¥30,000.00</td><td class="num gray">¥0.00</td>
-          <td><span class="badge b-court">法院冻结</span></td><td class="ell mono" style="font-size:11.5px">(2026)沪01执1234号</td>
+<td class="ell mono" style="font-size:11.5px">(2026)沪01执1234号</td>
           <td>李佳 / 万晖</td><td class="mono" style="font-size:12px">2026-05-20 14:23</td>
           <td><span class="badge s-eff"><i data-lucide="check-circle-2"></i>已生效</span></td>
           <td><div class="row-act"><button class="btn-link" onclick="openFreezeDetailAdmin('shanghai')">明细</button><button class="btn-link" onclick="openUnfreezeConfirm('上海南京东路店','180,000.00')">解冻</button></div></td>
@@ -648,7 +703,7 @@ a{color:inherit;text-decoration:none}
         <tr>
           <td><div class="store"><span class="nm">四川成都春熙店</span><span class="cd">BWCJ20230821</span></div></td>
           <td class="num warn">¥500,000.00</td><td class="num">¥200,000.00</td><td class="num">¥100,000.00</td><td class="num warn">¥200,000.00</td>
-          <td><span class="badge b-court">法院冻结</span></td><td class="ell mono" style="font-size:11.5px">(2026)川01执5678号</td>
+<td class="ell mono" style="font-size:11.5px">(2026)川01执5678号</td>
           <td>李佳 / 万晖</td><td class="mono" style="font-size:12px">2026-05-25 10:45</td>
           <td><span class="badge s-wait"><i data-lucide="clock"></i>待补冻中</span></td>
           <td><div class="row-act"><button class="btn-link" onclick="openFreezeDetailAdmin('chengdu')">明细</button><button class="btn-link" onclick="openUnfreezeConfirm('四川成都春熙店','500,000.00')">解冻</button></div></td>
@@ -656,7 +711,7 @@ a{color:inherit;text-decoration:none}
         <tr>
           <td><div class="store"><span class="nm">北京三里屯店</span><span class="cd">BWCJ20240312</span></div></td>
           <td class="num err">¥80,000.00</td><td class="num">¥80,000.00</td><td class="num">¥0.00</td><td class="num gray">¥0.00</td>
-          <td><span class="badge b-fee">手续费追缴</span></td><td class="ell mono" style="font-size:11.5px">FEE20260401</td>
+<td class="ell mono" style="font-size:11.5px">FEE20260401</td>
           <td>鲍小晶 / —</td><td class="mono" style="font-size:12px">2026-05-26 16:12</td>
           <td><span class="badge s-rev"><i data-lucide="hourglass"></i>待复核</span></td>
           <td><div class="row-act"><button class="btn-link" onclick="openFreezeDetailAdmin('beijing')">明细</button><button class="btn-link" style="color:var(--ok)" onclick="openReviewConfirm('北京三里屯店','80,000.00')">复核</button></div></td>
@@ -664,7 +719,7 @@ a{color:inherit;text-decoration:none}
         <tr>
           <td><div class="store"><span class="nm">深圳COCO Park店</span><span class="cd">BWCJ20230503</span></div></td>
           <td class="num err">¥50,000.00</td><td class="num">¥50,000.00</td><td class="num">¥0.00</td><td class="num gray">¥0.00</td>
-          <td><span class="badge b-fee">手续费追缴</span></td><td class="ell mono" style="font-size:11.5px">FEE20260315</td>
+<td class="ell mono" style="font-size:11.5px">FEE20260315</td>
           <td>鲍小晶 / 邓代琴</td><td class="mono" style="font-size:12px">2026-05-22 09:34</td>
           <td><span class="badge s-part"><i data-lucide="circle-half"></i>部分解冻</span></td>
           <td><div class="row-act"><button class="btn-link" onclick="openFreezeDetailAdmin('shenzhen')">明细</button><button class="btn-link" onclick="openUnfreezeConfirm('深圳COCO Park店','50,000.00')">解冻</button></div></td>
@@ -672,7 +727,7 @@ a{color:inherit;text-decoration:none}
         <tr>
           <td><div class="store"><span class="nm">广州天河城店</span><span class="cd">BWCJ20240107</span></div></td>
           <td class="num gray">¥0.00</td><td class="num gray">¥0.00</td><td class="num gray">¥0.00</td><td class="num gray">¥0.00</td>
-          <td><span class="badge b-pen">罚款</span></td><td class="ell mono" style="font-size:11.5px">PEN20260420</td>
+<td class="ell mono" style="font-size:11.5px">PEN20260420</td>
           <td>李佳 / 万晖</td><td class="mono" style="font-size:12px">2026-05-15 11:20</td>
           <td><span class="badge s-done"><i data-lucide="check"></i>已全部解冻</span></td>
           <td><div class="row-act"><button class="btn-link" onclick="openFreezeDetailAdmin('guangzhou')">明细</button></div></td>
@@ -758,14 +813,14 @@ a{color:inherit;text-decoration:none}
       <h4 class="subhead">失败明细（13 条）</h4>
       <div class="bordertbl">
         <table class="tbl">
-          <thead><tr><th style="width:60px">行号</th><th>门店</th><th>冻结金额</th><th>冻结类型</th><th>关联单号</th><th>错误原因</th></tr></thead>
+          <thead><tr><th style="width:60px">行号</th><th>门店</th><th>冻结金额</th><th>关联单号</th><th>错误原因</th></tr></thead>
           <tbody>
-            <tr><td class="mono">5</td><td><div class="store"><span class="nm">测试店A</span><span class="cd">BWCJ99991234</span></div></td><td class="num">¥10,000.00</td><td><span class="badge b-court">法院冻结</span></td><td class="mono" style="font-size:11.5px">(2026)沪01执9999号</td><td style="color:var(--err);font-weight:500">门店编码不存在</td></tr>
-            <tr><td class="mono">12</td><td><div class="store"><span class="nm">杭州西湖店</span><span class="cd">BWCJ20240520</span></div></td><td class="num err">¥-5,000.00</td><td><span class="badge b-fee">手续费追缴</span></td><td class="mono" style="font-size:11.5px">FEE20260520</td><td style="color:var(--err);font-weight:500">金额必须大于0</td></tr>
-            <tr><td class="mono">28</td><td><div class="store"><span class="nm">上海南京东路店</span><span class="cd">BWCJ20231215</span></div></td><td class="num">¥80,000.00</td><td><span class="badge b-court">法院冻结</span></td><td class="mono" style="font-size:11.5px">(2026)沪01执1234号</td><td style="color:var(--err);font-weight:500">单号已存在，不可重复</td></tr>
-            <tr><td class="mono">45</td><td><div class="store"><span class="nm">成都春熙店</span><span class="cd">BWCJ20230821</span></div></td><td class="num">¥150,000.00</td><td><span class="badge b-fee">手续费追缴</span></td><td class="mono" style="font-size:11.5px">—</td><td style="color:var(--err);font-weight:500">关联单号不能为空</td></tr>
-            <tr><td class="mono">67</td><td><div class="store"><span class="nm">南京新街口店</span><span class="cd">BWCJ20240722</span></div></td><td class="num">¥abc.00</td><td><span class="badge b-pen">罚款</span></td><td class="mono" style="font-size:11.5px">PEN20260522</td><td style="color:var(--err);font-weight:500">金额格式错误</td></tr>
-            <tr><td colspan="6" style="text-align:center;color:var(--ink-3);font-size:12px;padding:14px">⋯ 还有 8 条失败记录 · <a href="javascript:;" onclick="showToast('已下载完整错误清单 errors_13.xlsx','ok')" style="color:var(--info)">查看完整清单</a></td></tr>
+            <tr><td class="mono">5</td><td><div class="store"><span class="nm">测试店A</span><span class="cd">BWCJ99991234</span></div></td><td class="num">¥10,000.00</td><td class="mono" style="font-size:11.5px">(2026)沪01执9999号</td><td style="color:var(--err);font-weight:500">门店编码不存在</td></tr>
+            <tr><td class="mono">12</td><td><div class="store"><span class="nm">杭州西湖店</span><span class="cd">BWCJ20240520</span></div></td><td class="num err">¥-5,000.00</td><td class="mono" style="font-size:11.5px">FEE20260520</td><td style="color:var(--err);font-weight:500">金额必须大于0</td></tr>
+            <tr><td class="mono">28</td><td><div class="store"><span class="nm">上海南京东路店</span><span class="cd">BWCJ20231215</span></div></td><td class="num">¥80,000.00</td><td class="mono" style="font-size:11.5px">(2026)沪01执1234号</td><td style="color:var(--err);font-weight:500">单号已存在，不可重复</td></tr>
+            <tr><td class="mono">45</td><td><div class="store"><span class="nm">成都春熙店</span><span class="cd">BWCJ20230821</span></div></td><td class="num">¥150,000.00</td><td class="mono" style="font-size:11.5px">—</td><td style="color:var(--err);font-weight:500">关联单号不能为空</td></tr>
+            <tr><td class="mono">67</td><td><div class="store"><span class="nm">南京新街口店</span><span class="cd">BWCJ20240722</span></div></td><td class="num">¥abc.00</td><td class="mono" style="font-size:11.5px">PEN20260522</td><td style="color:var(--err);font-weight:500">金额格式错误</td></tr>
+            <tr><td colspan="5" style="text-align:center;color:var(--ink-3);font-size:12px;padding:14px">⋯ 还有 8 条失败记录 · <a href="javascript:;" onclick="showToast('已下载完整错误清单 errors_13.xlsx','ok')" style="color:var(--info)">查看完整清单</a></td></tr>
           </tbody>
         </table>
       </div>
@@ -773,11 +828,11 @@ a{color:inherit;text-decoration:none}
       <h4 class="subhead">有效记录预览（487 条 · 前 3 条）</h4>
       <div class="bordertbl">
         <table class="tbl">
-          <thead><tr><th style="width:60px">行号</th><th>门店</th><th>冻结金额</th><th>冻结类型</th><th>关联单号</th><th>预扣减预览</th></tr></thead>
+          <thead><tr><th style="width:60px">行号</th><th>门店</th><th>冻结金额</th><th>关联单号</th><th>预扣减预览</th></tr></thead>
           <tbody>
-            <tr><td class="mono">1</td><td><div class="store"><span class="nm">武汉光谷店</span><span class="cd">BWCJ20210303</span></div></td><td class="num err">¥120,000.00</td><td><span class="badge b-court">法院冻结</span></td><td class="mono" style="font-size:11.5px">(2026)鄂01执2233号</td><td style="font-size:11.5px;color:var(--ink-2)">营业¥120,000 / 充值¥0 / 待补¥0</td></tr>
-            <tr><td class="mono">2</td><td><div class="store"><span class="nm">西安大唐不夜城店</span><span class="cd">BWCJ20220817</span></div></td><td class="num warn">¥800,000.00</td><td><span class="badge b-court">法院冻结</span></td><td class="mono" style="font-size:11.5px">(2026)陕01执3344号</td><td style="font-size:11.5px;color:var(--ink-2)">营业¥500,000 / 充值¥200,000 / <b style="color:var(--warn)">待补¥100,000</b></td></tr>
-            <tr><td class="mono">3</td><td><div class="store"><span class="nm">苏州观前街店</span><span class="cd">BWCJ20230621</span></div></td><td class="num err">¥45,000.00</td><td><span class="badge b-fee">手续费追缴</span></td><td class="mono" style="font-size:11.5px">FEE20260518</td><td style="font-size:11.5px;color:var(--ink-2)">营业¥45,000 / 充值¥0 / 待补¥0</td></tr>
+            <tr><td class="mono">1</td><td><div class="store"><span class="nm">武汉光谷店</span><span class="cd">BWCJ20210303</span></div></td><td class="num err">¥120,000.00</td><td class="mono" style="font-size:11.5px">(2026)鄂01执2233号</td><td style="font-size:11.5px;color:var(--ink-2)">营业¥120,000 / 充值¥0 / 待补¥0</td></tr>
+            <tr><td class="mono">2</td><td><div class="store"><span class="nm">西安大唐不夜城店</span><span class="cd">BWCJ20220817</span></div></td><td class="num warn">¥800,000.00</td><td class="mono" style="font-size:11.5px">(2026)陕01执3344号</td><td style="font-size:11.5px;color:var(--ink-2)">营业¥500,000 / 充值¥200,000 / <b style="color:var(--warn)">待补¥100,000</b></td></tr>
+            <tr><td class="mono">3</td><td><div class="store"><span class="nm">苏州观前街店</span><span class="cd">BWCJ20230621</span></div></td><td class="num err">¥45,000.00</td><td class="mono" style="font-size:11.5px">FEE20260518</td><td style="font-size:11.5px;color:var(--ink-2)">营业¥45,000 / 充值¥0 / 待补¥0</td></tr>
           </tbody>
         </table>
       </div>
@@ -788,6 +843,74 @@ a{color:inherit;text-decoration:none}
       <div class="r">
         <button class="btn btn-default" onclick="showToast('已下载 errors_13.xlsx','ok')"><i data-lucide="file-down"></i>下载错误清单</button>
         <button class="btn btn-primary" onclick="submitToReview()"><i data-lucide="send"></i>继续提交 487 条有效记录</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============ 屏幕5：冻结操作审批页面 ============ -->
+<div class="screen" id="s5">
+  <div class="screen-head">
+    <div class="num">5</div>
+    <div class="info">
+      <h3>冻结操作后的审批页面（桌面端）</h3>
+      <p>补充冻结操作提交后的审批视图：审批人看到申请信息、冻结金额、有效记录、审批流和审批意见；通过后才进入执行。</p>
+    </div>
+  </div>
+
+  <div class="admin">
+    <div class="admin-bar">
+      <div class="l">
+        <div class="crumb"><i data-lucide="layout-dashboard"></i>财务中台<i data-lucide="chevron-right"></i>钱包管理<i data-lucide="chevron-right"></i>冻结审批<i data-lucide="chevron-right"></i><b>审批详情</b></div>
+      </div>
+      <div class="user"><span>审批人 · 万晖</span><div class="avt">WH</div></div>
+    </div>
+
+    <div class="approval-layout">
+      <div class="approval-card">
+        <div class="hd"><h4><i data-lucide="file-check-2"></i>冻结申请信息</h4><span class="badge s-rev"><i data-lucide="hourglass"></i>待审批</span></div>
+        <div class="bd">
+          <div class="kvgrid">
+            <div class="kv"><div class="k">申请单号</div><div class="v mono">FRZ202605270001</div></div>
+            <div class="kv"><div class="k">申请人</div><div class="v">鲍小晶 / 财务运营</div></div>
+            <div class="kv"><div class="k">申请类型</div><div class="v">批量冻结</div></div>
+            <div class="kv"><div class="k">申请时间</div><div class="v mono">2026-05-27 17:42</div></div>
+            <div class="kv"><div class="k">有效门店数</div><div class="v">487 家</div></div>
+            <div class="kv"><div class="k">冻结总金额</div><div class="v num">¥12,860,000.00</div></div>
+          </div>
+
+          <h4 class="subhead" style="margin-top:22px">冻结记录预览</h4>
+          <div class="bordertbl" style="margin-bottom:0">
+            <table class="tbl">
+              <thead><tr><th>门店</th><th>冻结金额</th><th>关联单号</th><th>预扣减预览</th></tr></thead>
+              <tbody>
+                <tr><td><div class="store"><span class="nm">武汉光谷店</span><span class="cd">BWCJ20210303</span></div></td><td class="num err">¥120,000.00</td><td class="mono" style="font-size:11.5px">(2026)鄂01执2233号</td><td style="font-size:11.5px;color:var(--ink-2)">营业款 ¥120,000 / 充值款 ¥0 / 待补冻 ¥0</td></tr>
+                <tr><td><div class="store"><span class="nm">西安大唐不夜城店</span><span class="cd">BWCJ20220817</span></div></td><td class="num warn">¥800,000.00</td><td class="mono" style="font-size:11.5px">(2026)陕01执3344号</td><td style="font-size:11.5px;color:var(--ink-2)">营业款 ¥500,000 / 充值款 ¥200,000 / <b style="color:var(--warn)">待补冻 ¥100,000</b></td></tr>
+                <tr><td><div class="store"><span class="nm">苏州观前街店</span><span class="cd">BWCJ20230621</span></div></td><td class="num err">¥45,000.00</td><td class="mono" style="font-size:11.5px">FEE20260518</td><td style="font-size:11.5px;color:var(--ink-2)">营业款 ¥45,000 / 充值款 ¥0 / 待补冻 ¥0</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="approval-card">
+        <div class="hd"><h4><i data-lucide="git-branch"></i>审批流</h4><span class="mono" style="font-size:11px;color:var(--ink-3)">SLA 24h</span></div>
+        <div class="bd">
+          <div class="approval-flow">
+            <div class="flow-item done"><div class="flow-dot"><i data-lucide="check"></i></div><div class="flow-main"><div class="flow-title">申请人提交 <span class="time">05-27 17:42</span></div><div class="flow-desc">鲍小晶上传 freeze_20260527.xlsx，系统校验通过 487 条，失败 13 条未提交。</div></div></div>
+            <div class="flow-item current"><div class="flow-dot"><i data-lucide="user-check"></i></div><div class="flow-main"><div class="flow-title">财务复核审批 <span class="time">待处理</span></div><div class="flow-desc">审批人需确认冻结依据、金额和门店范围。通过后进入系统执行。</div></div></div>
+            <div class="flow-item"><div class="flow-dot"><i data-lucide="cpu"></i></div><div class="flow-main"><div class="flow-title">系统执行冻结 <span class="time">待执行</span></div><div class="flow-desc">按营业款 → 充值款 → 待补冻顺序扣减，并写入冻结流水。</div></div></div>
+            <div class="flow-item"><div class="flow-dot"><i data-lucide="bell"></i></div><div class="flow-main"><div class="flow-title">通知门店 <span class="time">待触达</span></div><div class="flow-desc">冻结生效后，加盟商钱包首页和提现页同步展示已冻结余额。</div></div></div>
+          </div>
+
+          <h4 class="subhead" style="margin-top:24px">审批意见</h4>
+          <textarea class="opinion" placeholder="请输入审批意见，例如：依据文件齐全，金额与名单核对无误，同意冻结。">依据文件齐全，金额与名单核对无误，同意冻结。</textarea>
+        </div>
+        <div class="approval-actions">
+          <button class="btn btn-default" onclick="showToast('已驳回，申请退回给鲍小晶','info')"><i data-lucide="reply"></i>驳回</button>
+          <button class="btn btn-primary" onclick="showToast('审批通过，系统开始执行冻结','ok')"><i data-lucide="check-check"></i>审批通过并执行</button>
+        </div>
       </div>
     </div>
   </div>
@@ -818,7 +941,7 @@ a{color:inherit;text-decoration:none}
       <div>
         <b>上传须知</b>
         <ul>
-          <li>文件需包含：门店编码、门店名称、冻结金额、冻结类型、关联单号</li>
+          <li>文件需包含：门店编码、门店名称、冻结金额、关联单号</li>
           <li>系统将自动校验门店编码、金额格式、单号唯一性</li>
           <li>冻结按 <b>营业款 → 充值款 → 待补冻</b> 顺序扣减</li>
           <li>单笔金额 >100万 需财务总监审批</li>
@@ -1068,7 +1191,7 @@ function gotoStep(n){
 }
 function submitToReview(){
   showToast('已提交 487 条记录至复核流程','ok');
-  setTimeout(function(){ gotoStep(3); }, 500);
+  setTimeout(function(){ gotoStep(3); switchTab('s5'); }, 500);
 }
 
 // ============== 初始化 ==============
